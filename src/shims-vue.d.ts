@@ -3,7 +3,7 @@
  * @Date: 2021-08-02 14:47:52
  * @LastEditors: Rico
  * @LastEditTime: 2021-08-02 15:55:45
- * @Description: 
+ * @Description:
  */
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
