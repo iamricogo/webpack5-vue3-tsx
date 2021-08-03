@@ -7,6 +7,7 @@
  */
 const fs = require('fs')
 const path = require('path')
+const { DefinePlugin } = require('webpack')
 // vue-loader 插件, 需配合 @vue/compiler-sfc 一块使用
 const { VueLoaderPlugin } = require('vue-loader')
 // html插件
@@ -17,26 +18,23 @@ const dayjs = require('dayjs')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const StylelintPlugin = require('stylelint-webpack-plugin')
-
+const chalk = require('chalk')
+const ProgressBarPlugin = require('progress-bar-webpack-plugin')
+const { createCssLoader, isDev } = require('./utils')
 module.exports = {
   entry: ['./src/main.ts'],
   target: 'web',
+  output: {
+    filename: isDev ? '[name].bundle.js' : 'js/[name].[contenthash].js',
+    assetModuleFilename: 'assets/[name].[contenthash][ext]',
+    path: path.resolve(__dirname, '../dist')
+  },
   module: {
     rules: [
       // 处理vue
       {
         test: /\.vue$/,
         loader: 'vue-loader'
-      },
-      // 处理字体
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        type: 'asset',
-        parser: {
-          dataUrlCondition: {
-            maxSize: 8 * 1024
-          }
-        }
       },
       {
         test: /\.(t|j)sx?$/,
@@ -46,6 +44,50 @@ module.exports = {
             loader: 'babel-loader'
           }
         ]
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        oneOf: [
+          // 这里匹配 `<style module>`
+          {
+            resourceQuery: /module/,
+            use: createCssLoader('scss', { modules: true })
+          },
+          {
+            test: /\.module\.\w+$/,
+            use: createCssLoader('scss', { modules: true })
+          },
+          {
+            use: createCssLoader('scss')
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        oneOf: [
+          // 这里匹配 `<style module>`
+          {
+            resourceQuery: /module/,
+            use: createCssLoader('less', { modules: true })
+          },
+          {
+            test: /\.module\.\w+$/,
+            use: createCssLoader('less', { modules: true })
+          },
+          {
+            use: createCssLoader('less')
+          }
+        ]
+      },
+      // 处理其它资源
+      {
+        test: /\.(woff2?|eot|ttf|otf|png|svg|jpg|gif|cur|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        type: isDev() ? 'asset/resource' : 'asset', //开发模式不用转换
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024
+          }
+        }
       }
     ]
   },
@@ -57,7 +99,18 @@ module.exports = {
       lintDirtyModulesOnly: true
     }),
     new VueLoaderPlugin(),
+    new ProgressBarPlugin({
+      format: `${chalk.cyan.bold(`build `)}${chalk.bold('[')}:bar${chalk.bold(
+        ']'
+      )}${chalk.green.bold(' :percent')} (:elapsed seconds)`
+    }),
+    new DefinePlugin({
+      // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
+    }),
     new HtmlWebpackPlugin({
+      version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
       template: path.resolve(__dirname, '../public/index.html')
     }),
     // 处理静态文件夹 public 复制到打包的 public 文件夹

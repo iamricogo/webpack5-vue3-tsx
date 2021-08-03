@@ -1,4 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const os = require('os')
+const chalk = require('chalk')
 
 exports._typeof = (arg) => Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
 /**
@@ -28,6 +30,8 @@ exports.getArgvByKey = (key) => {
   return value
 }
 
+exports.isDev = () => process.env.NODE_ENV === 'development'
+
 /**
  *
  * @param {'scss'|'less'|Object} loaderName
@@ -35,7 +39,7 @@ exports.getArgvByKey = (key) => {
  * @returns
  */
 exports.createCssLoader = (loaderName = 'scss', options = {}) => {
-  const { modules, extract } = Object.assign({ modules: false, extract: false }, options)
+  const { modules, extract } = Object.assign({ modules: false, extract: !exports.isDev() }, options)
   const preLoader = {
     less: {
       loader: 'less-loader',
@@ -88,3 +92,30 @@ exports.createCssLoader = (loaderName = 'scss', options = {}) => {
 
   return loaders
 }
+
+exports.printServerUrls = (host, port) =>
+  chalk.cyan(`Webpack`) +
+  chalk.green(
+    ` dev server running at:\n${Object.values(os.networkInterfaces())
+      .flatMap((nInterface) => nInterface ?? [])
+      .filter((detail) => detail.family === 'IPv4')
+      .filter((detail) => (host === '0.0.0.0' ? true : detail.address.includes('127.0.0.1')))
+      .sort((a, b) => {
+        const aIsLocal = a.address.includes('127.0.0.1')
+        const bIsLocal = b.address.includes('127.0.0.1')
+        if (aIsLocal && !bIsLocal) {
+          return -1
+        }
+        if (!aIsLocal && bIsLocal) {
+          return -1
+        }
+        return 0
+      })
+      .map((detail) => {
+        const type = detail.address.includes('127.0.0.1') ? 'Local:   ' : 'Network: '
+        const host = detail.address.replace('127.0.0.1', 'localhost')
+        const url = `http://${host}:${chalk.bold(port)}`
+        return `  > ${type} ${chalk.cyan(url)}`
+      })
+      .join(`\n`)}`
+  )

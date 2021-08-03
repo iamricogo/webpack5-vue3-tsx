@@ -6,19 +6,20 @@
  * @Description:
  */
 
-import { defineComponent } from 'vue'
-export interface OthersProps {
-  title: string
+import { defineComponent, ExtractPropTypes } from 'vue'
+
+export type IOthersProps = Partial<ExtractPropTypes<typeof iOthersProps>>
+
+const iOthersProps = {
+  title: {
+    type: String,
+    required: true
+  }
 }
 export default defineComponent({
   name: 'Others',
-  props: {
-    title: {
-      type: String,
-      required: true
-    }
-  },
-  setup: (props: OthersProps) => {
+  props: iOthersProps,
+  setup: (props: IOthersProps) => {
     return () => (
       <div>
         <h4>{props.title}</h4>others

@@ -28,19 +28,17 @@ module.exports = {
           return `element-plus/packages/theme-chalk/src/${name}.scss`
         }
       },
-      // {
-      //   libraryName: 'ant-design-vue',
-      //   libraryDirectory: 'es',
-      //   customStyleName: (name) => {
-      //     return `ant-design-vue/es/${name}/style/index.css`
-      //   }
-      // },
       {
         libraryName: 'vant',
         libraryDirectory: 'es',
         customStyleName: (name) => {
           return `vant/es/${name}/style`
         }
+      },
+      {
+        libraryName: 'lodash',
+        libraryDirectory: '',
+        camel2DashComponentName: false // default: true
       }
     ].map((options) => ['import', options, options.libraryName])
   ]

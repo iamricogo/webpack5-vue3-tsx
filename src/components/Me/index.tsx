@@ -1,32 +1,29 @@
-/*
- * @Author: Rico
- * @Date: 2021-07-31 19:04:07
- * @LastEditors: Rico
- * @LastEditTime: 2021-08-02 11:58:49
- * @Description:
- */
-
-import { defineComponent } from 'vue'
+import { defineComponent, ExtractPropTypes, PropType } from 'vue'
 import logo from '@/assets/logo.png'
-export interface MeProps {
-  title: string
+import style from './style.module.scss'
+
+export type IMeProps = Partial<ExtractPropTypes<typeof iMeProps>>
+
+export const iMeProps = {
+  title: {
+    type: String,
+    required: true
+  },
+  onTap: {
+    type: Function as PropType<(value: number) => void>,
+    default: null
+  }
 }
 
 export default defineComponent({
   name: 'Me',
-  props: {
-    title: {
-      type: String,
-      required: true
-    }
+  props: iMeProps,
+  emits: {
+    tap: (value: number) => typeof value != 'undefined'
   },
+  slots: ['title'],
 
-  emits: ['tap'],
-
-  setup: (props: MeProps, { emit, slots, attrs }) => {
-    console.log({ props, emit, slots, attrs })
-
-    console.log(props.title)
+  setup: (props: IMeProps, { emit, slots }) => {
     return () => (
       <div>
         <h4>{props.title}</h4>
@@ -38,6 +35,7 @@ export default defineComponent({
             emit('tap', 1)
           }}
         />
+        <div class={style['img-box']}></div>
       </div>
     )
   }
