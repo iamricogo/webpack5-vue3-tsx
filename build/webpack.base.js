@@ -25,7 +25,7 @@ module.exports = {
   entry: ['./src/main.ts'],
   target: 'web',
   output: {
-    filename: isDev ? '[name].bundle.js' : 'js/[name].[contenthash].js',
+    filename: isDev() ? '[name].bundle.js' : 'js/[name].[contenthash].js',
     assetModuleFilename: 'assets/[name].[contenthash][ext]',
     path: path.resolve(__dirname, '../dist')
   },
@@ -111,18 +111,14 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      template: path.resolve(__dirname, '../public/index.html')
+      template: path.resolve(__dirname, '../index.html')
     }),
     // 处理静态文件夹 public 复制到打包的 public 文件夹
     new CopyWebpackPlugin({
       patterns: [
         {
           from: path.resolve(__dirname, '../public'),
-          to: 'public',
-          toType: 'dir',
-          globOptions: {
-            ignore: ['**/root/**', 'index.html']
-          }
+          toType: 'dir'
         }
       ].filter(({ from }) => fs.existsSync(from))
     }),

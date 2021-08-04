@@ -1,7 +1,7 @@
 import { defineComponent, ExtractPropTypes, PropType } from 'vue'
 import logo from '@/assets/logo.png'
 import style from './style.module.scss'
-
+import { Tag } from 'ant-design-vue'
 export type IMeProps = Partial<ExtractPropTypes<typeof iMeProps>>
 
 export const iMeProps = {
@@ -26,7 +26,7 @@ export default defineComponent({
   setup: (props: IMeProps, { emit, slots }) => {
     return () => (
       <div>
-        <h4>{props.title}</h4>
+        <Tag color="purple">{props.title}</Tag>
         <h5>{slots.title && slots.title()}</h5>
         <img
           alt="Vue logo"

@@ -1,14 +1,14 @@
 import { defineComponent, ref, reactive, Slots } from 'vue'
-import Me, { IMeProps } from '@/components/Me'
-import Others, { IOthersProps } from '@/components/Others'
-import IButton, { IButtonProps, IType } from '@/components/Button'
+import Me, { IMeProps } from '@/views/Me'
+import Others, { IOthersProps } from '@/views/Others'
 import { Tabs, TabPane } from 'ant-design-vue'
 interface ComData {
-  props: IMeProps & IOthersProps & IButtonProps
+  com: typeof Me | typeof Others
+  props: IMeProps | IOthersProps
   slots?: Slots
 }
 type Coms = {
-  [key in 'Me' | 'Others' | 'IButton']: ComData
+  [key in 'Me' | 'Others']: ComData
 }
 export default defineComponent({
   name: 'App',
@@ -16,6 +16,7 @@ export default defineComponent({
     const active = ref<keyof Coms>('Me')
     const coms: Coms = {
       Me: {
+        com: Me,
         props: reactive<IMeProps>({
           title: 'Me',
           onTap: (v: number) => {
@@ -27,34 +28,20 @@ export default defineComponent({
         })
       },
       Others: {
+        com: Others,
         props: reactive<IOthersProps>({
           title: 'Others'
         })
-      },
-      IButton: {
-        props: reactive<IButtonProps>({
-          type: IType.danger
-        })
       }
     }
-
     return () => (
       <>
         <Tabs type="card" v-model={[active.value, 'activeKey']}>
-          {Object.entries(coms).map(([key, value]) => {
-            const { props, slots } = value
-            return (
-              <TabPane tab={key} key={key}>
-                {
-                  {
-                    Me: <Me title={props.title} v-slots={slots} onTap={props.onTap} />,
-                    Others: <Others title={props.title} />,
-                    IButton: <IButton type={props.type} />
-                  }[key]
-                }
-              </TabPane>
-            )
-          })}
+          {Object.entries(coms).map(([key, { props, slots, com: Com }]) => (
+            <TabPane tab={key} key={key}>
+              <Com v-slots={slots} {...props} />
+            </TabPane>
+          ))}
         </Tabs>
       </>
     )
