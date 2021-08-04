@@ -129,10 +129,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
     alias: {
-      '@': resolve('src'),
-      ...(!isDev() && {
-        'vue-types': require.resolve('vue-types/dist/shim.m.js')
-      })
+      '@': resolve('src')
+      // 'vue-types': 'vue-types/shim',/** 源码中shim有bug extend方法不支持数组，导致ant-design-vue报错 github已修复并提交Pr 待回应 暂时屏蔽使用   */
     }
   }
 }

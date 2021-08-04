@@ -18,14 +18,14 @@ export default defineComponent({
     return () => (
       <div>
         <Tag color="purple">{props.title}</Tag>
-        <h5>{slots.title && slots.title()}</h5>
-        <img
-          alt="Vue logo"
-          src={logo}
+        <h5
           onClick={() => {
-            props.onTap && props.onTap(1)
+            props.onTap?.(1)
           }}
-        />
+        >
+          {slots.title?.()}
+        </h5>
+        <img alt="Vue logo" src={logo} />
         <div class={style['img-box']}></div>
       </div>
     )

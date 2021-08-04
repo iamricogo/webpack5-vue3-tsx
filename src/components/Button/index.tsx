@@ -19,13 +19,10 @@ const iButtonProps = {
   onClick: func<(evt: MouseEvent) => void>()
 }
 
-console.log(iButtonProps)
-
 export default defineComponent({
   name: 'IButton',
   props: iButtonProps,
-  emits: ['click'],
-  setup: (props, { slots, emit }) => {
+  setup: (props, { slots }) => {
     return () => (
       <button
         class={[
@@ -43,7 +40,7 @@ export default defineComponent({
         disabled={props.disabled || props.loading}
         autofocus={props.autofocus}
         type={props.nativeType}
-        onClick={(e) => emit('click', e)}
+        onClick={props.onClick}
       >
         {[
           props.loading && <i class="i-icon-loading"></i>,
