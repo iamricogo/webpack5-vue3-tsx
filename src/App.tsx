@@ -1,6 +1,6 @@
 import { defineComponent, ref, reactive, Slots } from 'vue'
-import Me, { IMeProps } from '@/views/Me'
-import Others, { IOthersProps } from '@/views/Others'
+import Me, { IMeProps } from '@/views/me'
+import Others, { IOthersProps } from '@/views/others'
 import { Tabs, TabPane } from 'ant-design-vue'
 interface ComData {
   com: typeof Me | typeof Others

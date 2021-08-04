@@ -105,7 +105,7 @@ module.exports = {
       )}${chalk.green.bold(' :percent')} (:elapsed seconds)`
     }),
     new DefinePlugin({
-      // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VUE_OPTIONS_API__: true,
       __VUE_PROD_DEVTOOLS__: false
     }),
@@ -129,7 +129,10 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
     alias: {
-      '@': resolve('src')
+      '@': resolve('src'),
+      ...(!isDev() && {
+        'vue-types': require.resolve('vue-types/dist/shim.m.js')
+      })
     }
   }
 }

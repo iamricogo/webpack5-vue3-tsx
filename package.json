@@ -22,7 +22,8 @@
     "core-js": "^3.16.0",
     "regenerator-runtime": "^0.13.9",
     "rxjs": "^7.3.0",
-    "vue": "^3.0.5"
+    "vue": "^3.0.5",
+    "vue-types": "^4.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",

@@ -1,29 +1,20 @@
-import { defineComponent, ExtractPropTypes, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import logo from '@/assets/logo.png'
 import style from './style.module.scss'
 import { Tag } from 'ant-design-vue'
-export type IMeProps = Partial<ExtractPropTypes<typeof iMeProps>>
+import AppTypes, { func } from '@/vue-types'
+
+export type IMeProps = ExtractOutPropTypes<typeof iMeProps>
 
 export const iMeProps = {
-  title: {
-    type: String,
-    required: true
-  },
-  onTap: {
-    type: Function as PropType<(value: number) => void>,
-    default: null
-  }
+  title: AppTypes.string.isRequired,
+  onTap: func<(value: number) => void>()
 }
 
 export default defineComponent({
   name: 'Me',
   props: iMeProps,
-  emits: {
-    tap: (value: number) => typeof value != 'undefined'
-  },
-  slots: ['title'],
-
-  setup: (props: IMeProps, { emit, slots }) => {
+  setup: (props, { slots }) => {
     return () => (
       <div>
         <Tag color="purple">{props.title}</Tag>
@@ -32,7 +23,7 @@ export default defineComponent({
           alt="Vue logo"
           src={logo}
           onClick={() => {
-            emit('tap', 1)
+            props.onTap && props.onTap(1)
           }}
         />
         <div class={style['img-box']}></div>

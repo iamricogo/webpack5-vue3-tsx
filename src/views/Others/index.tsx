@@ -1,23 +1,22 @@
 import { Tag } from 'ant-design-vue'
-import { defineComponent, ExtractPropTypes, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import IButton from '@/components/Button'
 import { delay, from } from 'rxjs'
+import AppTypes from '@/vue-types'
 
-export type IOthersProps = Partial<ExtractPropTypes<typeof iOthersProps>>
+export type IOthersProps = ExtractOutPropTypes<typeof iOthersProps>
 
 const iOthersProps = {
-  title: {
-    type: String,
-    required: true
-  }
+  title: AppTypes.string.isRequired
 }
 export default defineComponent({
   name: 'Others',
   props: iOthersProps,
-  setup: (props: IOthersProps) => {
+  setup: (props) => {
     const state = reactive({
       loading: false
     })
+
     return () => (
       <div>
         <Tag color="pink">{props.title}</Tag>

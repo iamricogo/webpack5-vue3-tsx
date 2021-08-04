@@ -1,41 +1,31 @@
-import { defineComponent, ExtractPropTypes, PropType } from 'vue'
-export type INativeType = 'button' | 'submit' | 'reset'
-export type IType = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'text' | 'default'
-export type ISize = 'large' | 'medium' | 'small' | 'mini'
-export type IButtonProps = Partial<ExtractPropTypes<typeof iButtonProps>>
+import { defineComponent } from 'vue'
+import AppTypes, { func, oneOf } from '@/vue-types'
+
+export type IButtonProps = ExtractOutPropTypes<typeof iButtonProps>
 
 const iButtonProps = {
-  nativeType: {
-    type: String as PropType<INativeType>,
-    default: 'button'
-  },
-  type: {
-    type: String as PropType<IType>,
-    default: 'default'
-  },
-  size: {
-    type: String as PropType<ISize>
-  },
-  icon: {
-    type: String,
-    default: ''
-  },
-  loading: Boolean,
-  disabled: Boolean,
-  plain: Boolean,
-  autofocus: Boolean,
-  round: Boolean,
-  circle: Boolean,
-  onClick: {
-    type: Function as PropType<(evt: MouseEvent) => void>
-  }
+  nativeType: oneOf(['button', 'submit', 'reset'] as const).def('button'),
+  type: oneOf(['primary', 'success', 'warning', 'danger', 'info', 'text', 'default'] as const).def(
+    'default'
+  ),
+  size: oneOf(['large', 'medium', 'small', 'mini'] as const),
+  icon: AppTypes.string,
+  loading: AppTypes.looseBool,
+  disabled: AppTypes.looseBool,
+  plain: AppTypes.looseBool,
+  autofocus: AppTypes.looseBool,
+  round: AppTypes.looseBool,
+  circle: AppTypes.looseBool,
+  onClick: func<(evt: MouseEvent) => void>()
 }
+
+console.log(iButtonProps)
 
 export default defineComponent({
   name: 'IButton',
   props: iButtonProps,
   emits: ['click'],
-  setup: (props: IButtonProps, { slots, emit }) => {
+  setup: (props, { slots, emit }) => {
     return () => (
       <button
         class={[
