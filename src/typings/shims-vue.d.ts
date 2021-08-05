@@ -63,4 +63,7 @@ declare type ExtractOutPropTypes<O> = {
     [K in UnRequiredKeys<O>]?: InferPropType<O[K]>
   }
 
-declare type StyleValue = string | import('vue').CSSProperties | Array<StyleValue>
+declare type StyleValue =
+  | string
+  | import('vue').CSSProperties
+  | Array<StyleValue>
