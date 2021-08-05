@@ -47,7 +47,7 @@ module.exports = merge(common, {
         }
       }
     },
-    minimize: false, // 是否压缩
+    minimize: true, // 是否压缩
     minimizer: [
       new TerserPlugin({
         parallel: true,
@@ -57,7 +57,7 @@ module.exports = merge(common, {
             beautify: false
           },
           compress: {
-            pure_funcs: ['console.warn', 'console.log'],
+            pure_funcs: ['console.log'],
             drop_debugger: true
           },
 
