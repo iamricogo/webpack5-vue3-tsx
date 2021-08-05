@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import AppTypes, { func, oneOf } from '@/vue-types'
+import './styles/index.scss'
 
 export type IButtonProps = ExtractOutPropTypes<typeof iButtonProps>
 
@@ -26,9 +27,9 @@ export default defineComponent({
     return () => (
       <button
         class={[
-          'i-button',
-          props.type ? 'i-button--' + props.type : '',
-          props.size ? 'i-button--' + props.size : '',
+          'ui-button',
+          props.type ? 'ui-button--' + props.type : '',
+          props.size ? 'ui-button--' + props.size : '',
           {
             'is-disabled': props.disabled,
             'is-loading': props.loading,
@@ -43,7 +44,7 @@ export default defineComponent({
         onClick={props.onClick}
       >
         {[
-          props.loading && <i class="i-icon-loading"></i>,
+          props.loading && <i class="ui-icon-loading"></i>,
           props.icon && !props.loading && <i class={props.icon}></i>,
           slots.default && <span>{slots.default()}</span>
         ]}

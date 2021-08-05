@@ -1,8 +1,14 @@
 module.exports = {
-  extends: ["stylelint-config-standard", "css-properties-sorting"],
-  plugins: ["stylelint-order"], // stylelint-order是CSS属性排序插件
+  extends: [
+    'stylelint-config-standard',
+    'stylelint-config-rational-order'
+    // 'stylelint-config-prettier'
+  ],
+  plugins: ['stylelint-scss', 'stylelint-order'], // stylelint-order是CSS属性排序插件
   rules: {
-    "no-duplicate-selectors": null,
-    "declaration-block-no-shorthand-property-overrides": null,
+    'at-rule-no-unknown': null,
+    'no-invalid-position-at-import-rule': null,
+    'font-family-no-missing-generic-family-keyword': null,
+    'scss/at-rule-no-unknown': true
   }
 }

@@ -95,8 +95,8 @@ module.exports = {
     new ESLintPlugin({ fix: true, extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'] }),
     new StylelintPlugin({
       fix: true,
-      extensions: ['css', 'scss', 'sass', '.vue'],
-      lintDirtyModulesOnly: true
+      extensions: ['css', 'scss', 'sass', '.vue']
+      // lintDirtyModulesOnly: true
     }),
     new VueLoaderPlugin(),
     new ProgressBarPlugin({

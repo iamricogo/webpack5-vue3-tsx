@@ -21,6 +21,8 @@ export default defineComponent({
       <div>
         <Tag>{props.title}</Tag>
         <IButton
+          type={'primary'}
+          size={'mini'}
           loading={state.loading}
           onClick={() => {
             state.loading = true
