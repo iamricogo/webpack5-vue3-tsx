@@ -1,7 +1,7 @@
 import { defineComponent, ref, reactive, Slots } from 'vue'
 import Me, { IMeProps } from '@/views/me'
 import Others, { IOthersProps } from '@/views/others'
-import { Tabs, TabPane } from 'ant-design-vue'
+import { Tabs } from 'ant-design-vue'
 interface ComData {
   com: typeof Me | typeof Others
   props: IMeProps | IOthersProps
@@ -38,9 +38,9 @@ export default defineComponent({
       <>
         <Tabs type="card" v-model={[active.value, 'activeKey']}>
           {Object.entries(coms).map(([key, { props, slots, com: Com }]) => (
-            <TabPane tab={key} key={key}>
+            <Tabs.TabPane tab={key} key={key}>
               <Com v-slots={slots} {...props} />
-            </TabPane>
+            </Tabs.TabPane>
           ))}
         </Tabs>
       </>

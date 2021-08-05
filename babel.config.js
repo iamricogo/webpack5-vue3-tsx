@@ -21,6 +21,13 @@ module.exports = {
   plugins: [
     ...[
       {
+        libraryName: 'ant-design-vue',
+        libraryDirectory: 'es',
+        customStyleName: (name) => {
+          return `ant-design-vue/es/${name}/style/index.css`
+        }
+      },
+      {
         libraryName: 'element-plus',
         libraryDirectory: 'es',
         customStyleName: (name) => {

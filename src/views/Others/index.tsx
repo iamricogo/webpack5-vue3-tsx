@@ -19,7 +19,7 @@ export default defineComponent({
 
     return () => (
       <div>
-        <Tag color="pink">{props.title}</Tag>
+        <Tag>{props.title}</Tag>
         <IButton
           loading={state.loading}
           onClick={() => {
