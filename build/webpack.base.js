@@ -6,13 +6,12 @@
  * @Description:
  */
 const fs = require('fs')
-const path = require('path')
+const { resolve } = require('path')
 const { DefinePlugin } = require('webpack')
 // vue-loader 插件, 需配合 @vue/compiler-sfc 一块使用
 const { VueLoaderPlugin } = require('vue-loader')
 // html插件
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { resolve } = require('path')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const dayjs = require('dayjs')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
@@ -27,7 +26,7 @@ module.exports = {
   output: {
     filename: isDev() ? '[name].bundle.js' : 'js/[name].[contenthash].js',
     assetModuleFilename: 'assets/[name].[contenthash][ext]',
-    path: path.resolve(__dirname, '../dist')
+    path: resolve(__dirname, '../dist')
   },
   module: {
     rules: [
@@ -92,7 +91,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new ESLintPlugin({ fix: true, extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'] }),
+    new ESLintPlugin({
+      fix: true,
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue']
+    }),
     new StylelintPlugin({
       fix: true,
       extensions: ['css', 'scss', 'sass', '.vue']
@@ -111,13 +113,13 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-      template: path.resolve(__dirname, '../index.html')
+      template: resolve(__dirname, '../index.html')
     }),
     // 处理静态文件夹 public 复制到打包的 public 文件夹
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, '../public'),
+          from: resolve(__dirname, '../public'),
           toType: 'dir'
         }
       ].filter(({ from }) => fs.existsSync(from))
