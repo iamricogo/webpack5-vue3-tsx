@@ -1,10 +1,11 @@
 module.exports = {
-  extends: [
-    'stylelint-config-standard',
-    'stylelint-config-rational-order'
-    // 'stylelint-config-prettier'
+  extends: ['stylelint-config-standard', 'stylelint-config-rational-order'],
+  plugins: [
+    'stylelint-scss',
+    'stylelint-order',
+    'stylelint-config-rational-order/plugin',
+    'stylelint-prettier'
   ],
-  plugins: ['stylelint-scss', 'stylelint-order'], // stylelint-order是CSS属性排序插件
   rules: {
     'at-rule-no-unknown': null,
     'no-invalid-position-at-import-rule': null,

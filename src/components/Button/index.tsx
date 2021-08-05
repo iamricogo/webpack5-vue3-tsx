@@ -6,9 +6,15 @@ export type IButtonProps = ExtractOutPropTypes<typeof iButtonProps>
 
 const iButtonProps = {
   nativeType: oneOf(['button', 'submit', 'reset'] as const).def('button'),
-  type: oneOf(['primary', 'success', 'warning', 'danger', 'info', 'text', 'default'] as const).def(
+  type: oneOf([
+    'primary',
+    'success',
+    'warning',
+    'danger',
+    'info',
+    'text',
     'default'
-  ),
+  ] as const).def('default'),
   size: oneOf(['large', 'medium', 'small', 'mini'] as const),
   icon: AppTypes.string,
   loading: AppTypes.looseBool,

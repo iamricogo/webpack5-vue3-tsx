@@ -14,7 +14,9 @@ const Ant: Plugin = {
       mixins: [
         {
           created() {
-            console.log('欢迎使用ant-design-vue 的tag组件，我是全局扩展mixins重写demo')
+            console.log(
+              '欢迎使用ant-design-vue 的tag组件，我是全局扩展mixins重写demo'
+            )
           }
         }
       ]
