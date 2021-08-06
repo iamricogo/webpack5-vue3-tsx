@@ -3,7 +3,7 @@
   height: 30px;
   border: 1px solid red;
 
-  .cde {
+  & .cde {
     display: flex;
     align-items: center;
     justify-content: center;
