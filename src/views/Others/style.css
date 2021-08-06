@@ -4,6 +4,9 @@
   border: 1px solid red;
 
   .cde {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 30px;
     border: 1px solid red;
   }

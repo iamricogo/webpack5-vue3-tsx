@@ -3,7 +3,6 @@ import logo from '@/assets/logo.png'
 import style from './style.module.scss'
 import { Tag } from 'ant-design-vue'
 import AppTypes, { func } from '@/vue-types'
-
 export type IMeProps = ExtractOutPropTypes<typeof iMeProps>
 
 export const iMeProps = {

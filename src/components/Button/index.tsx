@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue'
 import AppTypes, { func, oneOf } from '@/vue-types'
+import StringUtils from '@/utils/StringUtils'
 import './styles/index.scss'
 
 export type IButtonProps = ExtractOutPropTypes<typeof iButtonProps>
@@ -33,15 +34,19 @@ export default defineComponent({
     return () => (
       <button
         class={[
-          'ui-button',
-          props.type ? 'ui-button--' + props.type : '',
-          props.size ? 'ui-button--' + props.size : '',
+          StringUtils.classNameFormat('{ui}-button'),
+          props.type
+            ? StringUtils.classNameFormat('{ui}-button{--}' + props.type)
+            : '',
+          props.size
+            ? StringUtils.classNameFormat('{ui}-button{--}' + props.size)
+            : '',
           {
-            'is-disabled': props.disabled,
-            'is-loading': props.loading,
-            'is-plain': props.plain,
-            'is-round': props.round,
-            'is-circle': props.circle
+            [StringUtils.classNameFormat('{is-}disabled')]: props.disabled,
+            [StringUtils.classNameFormat('{is-}loading')]: props.loading,
+            [StringUtils.classNameFormat('{is-}plain')]: props.plain,
+            [StringUtils.classNameFormat('{is-}round')]: props.round,
+            [StringUtils.classNameFormat('{is-}circle')]: props.circle
           }
         ]}
         disabled={props.disabled || props.loading}
@@ -50,7 +55,9 @@ export default defineComponent({
         onClick={props.onClick}
       >
         {[
-          props.loading && <i class="ui-icon-loading"></i>,
+          props.loading && (
+            <i class={StringUtils.classNameFormat('{ui}-icon-loading')}></i>
+          ),
           props.icon && !props.loading && <i class={props.icon}></i>,
           slots.default && <span>{slots.default()}</span>
         ]}

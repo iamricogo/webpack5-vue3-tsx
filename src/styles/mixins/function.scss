@@ -1,4 +1,4 @@
-@import '../var/config';
+@import '../var/config.module';
 
 /* BEM support Func
  -------------------------- */
@@ -46,5 +46,6 @@
 }
 
 @function hitAllSpecialNestRule($selector) {
-  @return containsModifier($selector) or containWhenFlag($selector) or containPseudoClass($selector);
+  @return containsModifier($selector) or containWhenFlag($selector) or
+    containPseudoClass($selector);
 }

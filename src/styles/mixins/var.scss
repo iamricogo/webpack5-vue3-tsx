@@ -1,9 +1,14 @@
 @use "sass:map";
 
-@import '../var/config';
+@import '../var/config.module';
 
 @mixin set-css-color-primary($i) {
-  --#{$namespace}-color-primary-light-#{$i}: #{map.get($--colors, 'primary', 'light-#{$i}')};
+  --#{$namespace}-color-primary-light-#{$i}:
+    #{map.get(
+      $--colors,
+      'primary',
+      'light-#{$i}'
+    )};
 }
 
 @mixin set-css-color-type($type) {

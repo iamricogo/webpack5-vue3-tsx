@@ -1,0 +1,12 @@
+$namespace: 'ui';
+$element-separator: '__';
+$modifier-separator: '--';
+$state-prefix: 'is-';
+
+/* stylelint-disable */
+:export {
+  namespace: #{$namespace};
+  element-separator: #{$element-separator};
+  modifier-separator: #{$modifier-separator};
+  state-prefix: #{$state-prefix};
+}

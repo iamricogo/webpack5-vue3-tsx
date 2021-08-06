@@ -6,18 +6,16 @@
  * @Description:
  */
 const fs = require('fs')
+const chalk = require('chalk')
 const { resolve } = require('path')
+const dayjs = require('dayjs')
 const { DefinePlugin } = require('webpack')
-// vue-loader 插件, 需配合 @vue/compiler-sfc 一块使用
 const { VueLoaderPlugin } = require('vue-loader')
-// html插件
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-const dayjs = require('dayjs')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const StylelintPlugin = require('stylelint-webpack-plugin')
-const chalk = require('chalk')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const { createCssLoader, isDev } = require('./utils')
 module.exports = {
@@ -46,45 +44,19 @@ module.exports = {
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        oneOf: [
-          // 这里匹配 `<style module>`
-          {
-            resourceQuery: /module/,
-            use: createCssLoader('scss', { modules: true })
-          },
-          {
-            test: /\.module\.\w+$/,
-            use: createCssLoader('scss', { modules: true })
-          },
-          {
-            use: createCssLoader('scss')
-          }
-        ]
+        use: createCssLoader('sass')
       },
       {
         test: /\.less$/,
-        oneOf: [
-          // 这里匹配 `<style module>`
-          {
-            resourceQuery: /module/,
-            use: createCssLoader('less', { modules: true })
-          },
-          {
-            test: /\.module\.\w+$/,
-            use: createCssLoader('less', { modules: true })
-          },
-          {
-            use: createCssLoader('less')
-          }
-        ]
+        use: createCssLoader('less')
       },
       // 处理其它资源
       {
         test: /\.(woff2?|eot|ttf|otf|png|svg|jpg|gif|cur|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
-        type: isDev() ? 'asset/resource' : 'asset', //开发模式不用转换
+        type: 'asset',
         parser: {
           dataUrlCondition: {
-            maxSize: 8 * 1024
+            maxSize: 8 * 1024 // 8kb
           }
         }
       }

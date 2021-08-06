@@ -1,7 +1,7 @@
 @use "sass:map";
 
 // CSS3 var
-@import '../var/config';
+@import '../var/config.module';
 @import '../var/var';
 @import '../mixins/var';
 
@@ -42,10 +42,14 @@
   // Border
   --#{$namespace}-border-width-base: #{$--border-width-base};
   --#{$namespace}-border-style-base: #{$--border-style-base};
-  --#{$namespace}-border-color-hover: var(--#{$namespace}-text-color-placeholder);
+  --#{$namespace}-border-color-hover:
+    var(
+      --#{$namespace}-text-color-placeholder
+    );
   --#{$namespace}-border-base:
     var(--#{$namespace}-border-width-base)
-    var(--#{$namespace}-border-style-base) var(--#{$namespace}-border-color-base);
+    var(--#{$namespace}-border-style-base)
+    var(--#{$namespace}-border-color-base);
 
   // --#{$namespace}-border-radius-#{$type}
   @each $type in (base, small, round, circle) {
@@ -79,8 +83,14 @@
   --#{$namespace}-index-popper: 2000;
 
   // Disable base
-  --#{$namespace}-disabled-fill-base: var(--#{$namespace}-background-color-base);
-  --#{$namespace}-disabled-color-base: var(--#{$namespace}-text-color-placeholder);
+  --#{$namespace}-disabled-fill-base:
+    var(
+      --#{$namespace}-background-color-base
+    );
+  --#{$namespace}-disabled-color-base:
+    var(
+      --#{$namespace}-text-color-placeholder
+    );
   --#{$namespace}-disabled-border-base: var(--#{$namespace}-border-color-light);
 
   /* Transition
@@ -89,25 +99,36 @@
   //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
   --#{$namespace}-transition-duration: 0.3s;
   --#{$namespace}-transition-duration-fast: 0.2s;
-  --#{$namespace}-ease-in-out-bezier-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --#{$namespace}-ease-in-out-bezier-function:
+    cubic-bezier(
+      0.645,
+      0.045,
+      0.355,
+      1
+    );
   --#{$namespace}-fast-bezier-transition: cubic-bezier(0.23, 1, 0.32, 1);
   --#{$namespace}-all-transition:
     all var(--#{$namespace}-transition-duration)
     var(--#{$namespace}-ease-in-out-bezier-function);
   --#{$namespace}-fade-transition:
-    opacity var(--#{$namespace}-transition-duration)
+    opacity
+    var(--#{$namespace}-transition-duration)
     var(--#{$namespace}-fast-bezier-transition);
   --#{$namespace}-md-fade-transition:
-    transform var(--#{$namespace}-transition-duration)
+    transform
+    var(--#{$namespace}-transition-duration)
     var(--#{$namespace}-fast-bezier-transition),
-    opacity var(--#{$namespace}-transition-duration) var(--#{$namespace}-fast-bezier-transition);
+    opacity var(--#{$namespace}-transition-duration)
+    var(--#{$namespace}-fast-bezier-transition);
   --#{$namespace}-fade-linear-transition:
-    opacity var(--#{$namespace}-transition-duration-fast)
-    linear;
+    opacity
+    var(--#{$namespace}-transition-duration-fast) linear;
   --#{$namespace}-border-transition-base:
-    border-color var(--#{$namespace}-transition-duration-fast)
+    border-color
+    var(--#{$namespace}-transition-duration-fast)
     var(--#{$namespace}-ease-in-out-bezier-function);
   --#{$namespace}-color-transition-base:
-    color var(--#{$namespace}-transition-duration-fast)
+    color
+    var(--#{$namespace}-transition-duration-fast)
     var(--#{$namespace}-ease-in-out-bezier-function);
 }

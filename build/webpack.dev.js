@@ -10,7 +10,7 @@ const common = require('./webpack.base.js')
 const portfinder = require('portfinder')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const openInEditor = require('launch-editor-middleware')
-const { printServerUrls } = require('./utils')
+const { getServerUrls } = require('./utils')
 const devWebpackConfig = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
@@ -41,7 +41,7 @@ module.exports = async () => {
 
   const friendlyErrors = new FriendlyErrorsWebpackPlugin({
     compilationSuccessInfo: {
-      messages: [printServerUrls(host, port)]
+      messages: [getServerUrls(host, port)]
     }
   })
 

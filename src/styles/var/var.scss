@@ -2,7 +2,7 @@
 @use "sass:math";
 @use "sass:map";
 
-@import './config';
+@import './config.module';
 
 /* Typography
 -------------------------- */
@@ -72,7 +72,8 @@ $--color-info: map.get($--colors, 'info', 'base');
   $--colors: map.deep-merge(
     (
       'primary': (
-        'light-#{$number}': mix($--color-white, $color, math.percentage(math.div($number, 10)))
+        'light-#{$number}':
+        mix($--color-white, $color, math.percentage(math.div($number, 10)))
       )
     ),
     $--colors
@@ -143,7 +144,8 @@ $--background-color-base: #f5f7fa !default;
 $--border-width-base: 1px !default;
 $--border-style-base: solid !default;
 $--border-color-hover: var(--#{$namespace}-text-color-placeholder) !default;
-$--border-base: $--border-width-base $--border-style-base map.get($--border-color, 'base') !default;
+$--border-base: $--border-width-base $--border-style-base
+  map.get($--border-color, 'base') !default;
 /// borderRadius|1|Radius|0
 
 $--border-radius: () !default;

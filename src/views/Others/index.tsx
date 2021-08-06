@@ -4,6 +4,8 @@ import IButton from '@/components/Button'
 import { delay, from } from 'rxjs'
 import AppTypes from '@/vue-types'
 
+import './style.css'
+
 export type IOthersProps = ExtractOutPropTypes<typeof iOthersProps>
 
 const iOthersProps = {
@@ -40,7 +42,7 @@ export default defineComponent({
               })
           }}
         >
-          点击加载
+          Loading...
         </IButton>
       </div>
     )

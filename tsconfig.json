@@ -1,32 +1,33 @@
 {
   "compilerOptions": {
-      "allowJs": true,
-      "target": "esnext",
-      "module": "esnext",
-      "checkJs": true,
-      "strict": true,
-      "jsx": "preserve",
-      "importHelpers": true,
-      "moduleResolution": "node",
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "sourceMap": true,
-      "noEmit": true,
-      "isolatedModules": true,
-      "baseUrl": ".",
-      "types": ["node", "webpack-env"],
-      "paths": {
-          "@/*": ["src/*"]
-      },
-      "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "allowJs": true,
+    "target": "esnext",
+    "module": "esnext",
+    "checkJs": true,
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "types": ["node", "webpack-env"],
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
   "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx",
-      "src/**/*.vue",
-      "tests/**/*.ts",
-      "tests/**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }
