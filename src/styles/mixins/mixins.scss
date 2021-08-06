@@ -9,9 +9,7 @@
     @media only screen and #{unquote(map-get($map, $key))} {
       @content;
     }
-  }
-
-  @else {
+  } @else {
     @warn "Undefeined points: `#{$map}`";
   }
 }
@@ -100,9 +98,7 @@
         }
       }
     }
-  }
-
-  @else {
+  } @else {
     @at-root {
       #{$currentSelector} {
         @content;
@@ -161,9 +157,9 @@
 
   @at-root {
     #{&}#{$specSelector}.#{$block
-    + $element-separator
-    + $element
-    + $modifierCombo} {
+      + $element-separator
+      + $element
+      + $modifierCombo} {
       @content;
     }
   }
@@ -226,7 +222,8 @@
 
     @each $placement,
       $adjacency
-      in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top') {
+        in ('top': 'left', 'bottom': 'right', 'left': 'bottom', 'right': 'top')
+    {
       &[data-popper-placement^='#{$placement}'] {
         .#{$namespace}-popper__arrow::before {
           border-#{$placement}-color: transparent;

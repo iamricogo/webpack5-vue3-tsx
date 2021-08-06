@@ -45,51 +45,45 @@
   &:hover,
   &:focus {
     color: $color;
-    background:
-      mix(
-        $--color-white,
-        $background-color,
-        $--button-hover-tint-percent
-      );
-    border-color:
-      mix(
-        $--color-white,
-        $border-color,
-        $--button-hover-tint-percent
-      );
+    background: mix(
+      $--color-white,
+      $background-color,
+      $--button-hover-tint-percent
+    );
+    border-color: mix(
+      $--color-white,
+      $border-color,
+      $--button-hover-tint-percent
+    );
   }
 
   &:active {
     color: $color;
-    background:
-      mix(
-        $--color-black,
-        $background-color,
-        $--button-active-shade-percent
-      );
-    border-color:
-      mix(
-        $--color-black,
-        $border-color,
-        $--button-active-shade-percent
-      );
+    background: mix(
+      $--color-black,
+      $background-color,
+      $--button-active-shade-percent
+    );
+    border-color: mix(
+      $--color-black,
+      $border-color,
+      $--button-active-shade-percent
+    );
     outline: none;
   }
 
   &.is-active {
     color: $color;
-    background:
-      mix(
-        $--color-black,
-        $background-color,
-        $--button-active-shade-percent
-      );
-    border-color:
-      mix(
-        $--color-black,
-        $border-color,
-        $--button-active-shade-percent
-      );
+    background: mix(
+      $--color-black,
+      $background-color,
+      $--button-active-shade-percent
+    );
+    border-color: mix(
+      $--color-black,
+      $border-color,
+      $--button-active-shade-percent
+    );
   }
 
   &.is-disabled {
@@ -125,10 +119,9 @@
 
 :root {
   @each $type in (primary, success, warning, danger, info) {
-    --#{$namespace}-button-#{$type}-border-color:
-      var(
-        --#{$namespace}-color-#{$type}
-      );
+    --#{$namespace}-button-#{$type}-border-color: var(
+      --#{$namespace}-color-#{$type}
+    );
   }
 
   @include set-component-css-var('button', $--button);
@@ -139,11 +132,10 @@
   box-sizing: border-box;
   min-height: map.get($--input-height, 'default');
   margin: 0;
-  color:
-    var(
-      --#{$namespace}-button-default-font-color,
-      map.get($--button, 'default-font-color')
-    );
+  color: var(
+    --#{$namespace}-button-default-font-color,
+    map.get($--button, 'default-font-color')
+  );
   font-weight: var(--#{$namespace}-button-font-weight);
   line-height: 1;
   white-space: nowrap;
@@ -182,18 +174,16 @@
   }
 
   &:active {
-    color:
-      mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
-    border-color:
-      mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
+    color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
+    border-color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
     outline: none;
   }
 
@@ -212,36 +202,32 @@
     }
 
     &:active {
-      color:
-        mix(
-          $--color-black,
-          $--color-primary,
-          $--button-active-shade-percent
-        );
+      color: mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      );
       background: var(--#{$namespace}-color-white);
-      border-color:
-        mix(
-          $--color-black,
-          $--color-primary,
-          $--button-active-shade-percent
-        );
+      border-color: mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      );
       outline: none;
     }
   }
 
   @include when(active) {
-    color:
-      mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
-    border-color:
-      mix(
-        $--color-black,
-        $--color-primary,
-        $--button-active-shade-percent
-      );
+    color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
+    border-color: mix(
+      $--color-black,
+      $--color-primary,
+      $--button-active-shade-percent
+    );
   }
 
   @include when(disabled) {
@@ -333,23 +319,21 @@
 
     &:hover,
     &:focus {
-      color:
-        mix(
-          $--color-white,
-          $--color-primary,
-          $--button-hover-tint-percent
-        );
+      color: mix(
+        $--color-white,
+        $--color-primary,
+        $--button-hover-tint-percent
+      );
       background-color: transparent;
       border-color: transparent;
     }
 
     &:active {
-      color:
-        mix(
-          $--color-black,
-          $--color-primary,
-          $--button-active-shade-percent
-        );
+      color: mix(
+        $--color-black,
+        $--color-primary,
+        $--button-active-shade-percent
+      );
       background-color: transparent;
       border-color: transparent;
     }

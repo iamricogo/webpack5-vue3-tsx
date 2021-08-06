@@ -3,8 +3,7 @@
 @import '../var/config.module';
 
 @mixin set-css-color-primary($i) {
-  --#{$namespace}-color-primary-light-#{$i}:
-    #{map.get(
+  --#{$namespace}-color-primary-light-#{$i}: #{map.get(
       $--colors,
       'primary',
       'light-#{$i}'

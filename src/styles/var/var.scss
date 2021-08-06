@@ -73,7 +73,7 @@ $--color-info: map.get($--colors, 'info', 'base');
     (
       'primary': (
         'light-#{$number}':
-        mix($--color-white, $color, math.percentage(math.div($number, 10)))
+          mix($--color-white, $color, math.percentage(math.div($number, 10)))
       )
     ),
     $--colors

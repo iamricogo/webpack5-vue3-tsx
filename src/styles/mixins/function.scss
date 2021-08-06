@@ -14,9 +14,7 @@
 
   @if str-index($selector, $modifier-separator) {
     @return true;
-  }
-
-  @else {
+  } @else {
     @return false;
   }
 }
@@ -26,9 +24,7 @@
 
   @if str-index($selector, '.' + $state-prefix) {
     @return true;
-  }
-
-  @else {
+  } @else {
     @return false;
   }
 }
@@ -38,9 +34,7 @@
 
   @if str-index($selector, ':') {
     @return true;
-  }
-
-  @else {
+  } @else {
     @return false;
   }
 }

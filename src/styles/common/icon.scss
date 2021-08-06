@@ -7,8 +7,7 @@
   font-weight: normal;
   font-family: 'i-icon';
   font-style: normal;
-  src:
-    url('#{$--font-path}/i-icons.woff') format('woff'),
+  src: url('#{$--font-path}/i-icons.woff') format('woff'),
     url('#{$--font-path}/i-icons.ttf') format('truetype'); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
 
   font-display: $--font-display;
