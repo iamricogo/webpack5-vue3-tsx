@@ -8,6 +8,5 @@
 module.exports = {
   semi: false,
   singleQuote: true,
-  trailingComma: 'none',
-  proseWrap: 'never'
+  trailingComma: 'none'
 }
