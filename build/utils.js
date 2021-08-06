@@ -52,10 +52,10 @@ exports.createCssLoader = (loaderName = 'sass', options = {}) => {
       loader: 'less-loader',
       options: {
         lessOptions: {
-          javascriptEnabled: true
-        },
-        modifyVars: {
-          hack: `true;`
+          javascriptEnabled: true,
+          modifyVars: {
+            hack: `true;`
+          }
         }
       }
     },

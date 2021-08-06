@@ -24,7 +24,7 @@ module.exports = {
         libraryName: 'ant-design-vue',
         libraryDirectory: 'es',
         customStyleName: (name) => {
-          return `ant-design-vue/es/${name}/style/index.css`
+          return `ant-design-vue/es/${name}/style/index`
         }
       },
       {

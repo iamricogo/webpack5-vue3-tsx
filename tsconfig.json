@@ -1,19 +1,13 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "target": "esnext",
     "module": "esnext",
-    "checkJs": true,
+    "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
-    "importHelpers": true,
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "noEmit": true,
-    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "types": ["node", "webpack-env"],
     "paths": {
