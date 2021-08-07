@@ -6,10 +6,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const common = require('./webpack.base.js')
 let plugins = [
   new MiniCssExtractPlugin({
-    // Options similar to the same options in webpackOptions.output
-    // both options are optional
-    filename: 'css/[name].[contenthash].css',
-    chunkFilename: 'css/[name].[contenthash].css'
+    filename: 'assets/[name].[contenthash].css',
+    chunkFilename: 'assets/[name].[contenthash].css'
   })
 ]
 
@@ -30,6 +28,14 @@ process.env.report &&
 
 module.exports = merge(common, {
   mode: 'production',
+  output: {
+    filename: 'assets/[name].[contenthash].js',
+    environment: {
+      arrowFunction: false,
+      destructuring: false
+    },
+    clean: true
+  },
   optimization: {
     chunkIds: 'named',
     moduleIds: 'deterministic',
@@ -69,12 +75,5 @@ module.exports = merge(common, {
       new CssMinimizerPlugin()
     ]
   },
-  plugins,
-  output: {
-    environment: {
-      arrowFunction: false,
-      destructuring: false
-    },
-    clean: true
-  }
+  plugins
 })

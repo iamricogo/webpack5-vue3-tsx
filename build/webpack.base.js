@@ -17,12 +17,12 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const StylelintPlugin = require('stylelint-webpack-plugin')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
-const { createCssLoader, isDev } = require('./utils')
+const { createCssLoader } = require('./utils')
 module.exports = {
   entry: ['./src/main.ts'],
   target: 'web',
   output: {
-    filename: isDev() ? '[name].bundle.js' : 'js/[name].[contenthash].js',
+    filename: 'assets/[name].bundle.js',
     assetModuleFilename: 'assets/[name].[contenthash][ext]',
     path: resolve(__dirname, '../dist')
   },
