@@ -1,0 +1,106 @@
+import fs from 'fs'
+import chalk from 'chalk'
+import dayjs from 'dayjs'
+import { resolve } from 'path'
+import { VueLoaderPlugin } from 'vue-loader'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import ESLintWebpackPlugin from 'eslint-webpack-plugin'
+import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
+import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
+import { Configuration, DefinePlugin } from 'webpack'
+import { createCssLoader } from './utils'
+
+const base: Configuration = {
+  entry: ['./src/main.ts'],
+  target: 'web',
+  output: {
+    filename: 'assets/[name].bundle.js',
+    assetModuleFilename: 'assets/[name].[contenthash][ext]',
+    path: resolve(__dirname, '../dist')
+  },
+  module: {
+    rules: [
+      // 处理vue
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.(t|j)sx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: createCssLoader('sass')
+      },
+      {
+        test: /\.less$/,
+        use: createCssLoader('less')
+      },
+      // 处理其它资源
+      {
+        test: /\.(woff2?|eot|ttf|otf|png|svg|jpg|gif|cur|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024 // 8kb
+          }
+        }
+      }
+    ]
+  },
+  plugins: [
+    new ESLintWebpackPlugin({
+      fix: true,
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue']
+    }),
+    new StylelintWebpackPlugin({
+      fix: true,
+      extensions: ['css', 'scss', 'sass', '.vue']
+      // lintDirtyModulesOnly: true
+    }),
+    new VueLoaderPlugin(),
+    new (ProgressBarWebpackPlugin as any)({
+      format: `${chalk.cyan.bold(`build `)}${chalk.bold('[')}:bar${chalk.bold(
+        ']'
+      )}${chalk.green.bold(' :percent')} (:elapsed seconds)`
+    }),
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false
+    }),
+    new HtmlWebpackPlugin({
+      version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      template: resolve(__dirname, '../index.html')
+    }),
+
+    new (CopyWebpackPlugin as any)({
+      patterns: [
+        {
+          from: resolve(__dirname, '../public'),
+          toType: 'dir'
+        }
+      ].filter(({ from }) => fs.existsSync(from))
+    }),
+
+    // fork-ts-checker-webpack-plugin，顾名思义就是创建一个新进程，专门来运行Typescript类型检查。这么做的原因是为了利用多核资源来提升编译的速度
+    new ForkTsCheckerWebpackPlugin()
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
+    alias: {
+      '@': resolve('src')
+      // 'vue-types': 'vue-types/shim',/** 源码中shim有bug extend方法不支持数组，导致ant-design-vue报错 github已修复并提交Pr 待回应 暂时屏蔽使用   */
+    }
+  }
+}
+
+export default base
