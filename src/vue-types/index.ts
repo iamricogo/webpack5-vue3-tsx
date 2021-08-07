@@ -1,10 +1,10 @@
 import {
-  toType,
-  toValidableType,
   VueTypeDef,
   VueTypeValidableDef,
+  bool,
   createTypes,
-  bool
+  toType,
+  toValidableType
 } from 'vue-types'
 export * from 'vue-types'
 

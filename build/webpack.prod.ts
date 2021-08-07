@@ -1,11 +1,11 @@
-import { merge } from 'webpack-merge'
-import TerserWebpackPlugin from 'terser-webpack-plugin'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import { merge } from 'webpack-merge'
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TerserWebpackPlugin from 'terser-webpack-plugin'
 import baseWebpackConfig from './webpack.base'
 
-export default merge(baseWebpackConfig, {
+const config = merge(baseWebpackConfig, {
   mode: 'production',
   output: {
     filename: 'assets/[name].[contenthash].js',
@@ -76,3 +76,4 @@ export default merge(baseWebpackConfig, {
       : [])
   ]
 })
+export default config

@@ -1,18 +1,18 @@
-import fs from 'fs'
+import { Configuration, DefinePlugin } from 'webpack'
+import { VueLoaderPlugin } from 'vue-loader'
+import { createCssLoader } from './utils'
+import { resolve } from 'path'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import ESLintWebpackPlugin from 'eslint-webpack-plugin'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
+import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
 import chalk from 'chalk'
 import dayjs from 'dayjs'
-import { resolve } from 'path'
-import { VueLoaderPlugin } from 'vue-loader'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import ESLintWebpackPlugin from 'eslint-webpack-plugin'
-import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
-import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
-import { Configuration, DefinePlugin } from 'webpack'
-import { createCssLoader } from './utils'
+import fs from 'fs'
 
-const base: Configuration = {
+const config: Configuration = {
   entry: ['./src/main.ts'],
   target: 'web',
   output: {
@@ -67,7 +67,7 @@ const base: Configuration = {
       // lintDirtyModulesOnly: true
     }),
     new VueLoaderPlugin(),
-    new (ProgressBarWebpackPlugin as any)({
+    new ProgressBarWebpackPlugin({
       format: `${chalk.cyan.bold(`build `)}${chalk.bold('[')}:bar${chalk.bold(
         ']'
       )}${chalk.green.bold(' :percent')} (:elapsed seconds)`
@@ -82,7 +82,7 @@ const base: Configuration = {
       template: resolve(__dirname, '../index.html')
     }),
 
-    new (CopyWebpackPlugin as any)({
+    new CopyWebpackPlugin({
       patterns: [
         {
           from: resolve(__dirname, '../public'),
@@ -103,4 +103,4 @@ const base: Configuration = {
   }
 }
 
-export default base
+export default config

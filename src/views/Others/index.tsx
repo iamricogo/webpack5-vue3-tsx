@@ -1,8 +1,8 @@
 import { Tag } from 'ant-design-vue'
 import { defineComponent, reactive } from 'vue'
-import IButton from '@/components/Button'
 import { delay, from } from 'rxjs'
 import AppTypes from '@/vue-types'
+import IButton from '@/components/Button'
 
 import './style.css'
 

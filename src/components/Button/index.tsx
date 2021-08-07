@@ -1,7 +1,7 @@
+import './styles/index.scss'
 import { defineComponent } from 'vue'
 import AppTypes, { func, oneOf } from '@/vue-types'
 import StringUtils from '@/utils/StringUtils'
-import './styles/index.scss'
 
 export type IButtonProps = ExtractOutPropTypes<typeof iButtonProps>
 

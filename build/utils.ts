@@ -1,11 +1,12 @@
 import { loader as MiniCssExtractLoader } from 'mini-css-extract-plugin'
-import os from 'os'
+import { RuleSetRule } from 'webpack'
 import chalk from 'chalk'
+import os from 'os'
 
-export const _typeof = (arg) =>
-  Object.prototype.toString.call(arg).slice(8, -1).toLowerCase()
+export const _typeof = (context: unknown): string =>
+  Object.prototype.toString.call(context).slice(8, -1).toLowerCase()
 
-export const isDev = () => process.env.NODE_ENV === 'development'
+export const isDev = (): boolean => process.env.NODE_ENV === 'development'
 
 /**
  * @param {string} key 
@@ -15,7 +16,7 @@ export const isDev = () => process.env.NODE_ENV === 'development'
         --key value   =>value
  * @returns 
  */
-export const getParamsByKey = (key) => {
+export const getParamsByKey = (key: string): string => {
   let value = undefined
   for (let index = 0; index < process.argv.length; index++) {
     const cur = process.argv[index],
@@ -39,13 +40,22 @@ export const getParamsByKey = (key) => {
 
 /**
  *
- * @param {'scss'|'less'|Object} loaderName
- * @param {*} options
+ * @param loaderName
+ * @param options
  * @returns
  */
-export const createCssLoader = (loaderName = 'sass', options = {}) => {
-  const { extract } = Object.assign(
-    { modules: false, extract: !isDev() },
+export const createCssLoader = (
+  loaderName: 'sass' | 'less' = 'sass',
+  options: { extract?: Record<string, unknown> | boolean } = {}
+): RuleSetRule['use'] => {
+  const { extract, modules } = Object.assign(
+    {
+      extract: !isDev(),
+      modules: {
+        localIdentName: isDev() ? '[path][name]__[local]' : '[hash:base64]',
+        auto: true
+      }
+    },
     options
   )
   const preLoader = {
@@ -81,10 +91,7 @@ export const createCssLoader = (loaderName = 'sass', options = {}) => {
         // Run `postcss-loader` on each CSS `@import` and CSS modules/ICSS imports, do not forget that `sass-loader` compile non CSS `@import`'s into a single file
         // If you need run `sass-loader` and `postcss-loader` on each CSS `@import` please set it to `2`
         importLoaders: 1,
-        modules: {
-          localIdentName: isDev() ? '[path][name]__[local]' : '[hash:base64]',
-          auto: true
-        }
+        modules
       }
     },
     'postcss-loader',
@@ -94,7 +101,7 @@ export const createCssLoader = (loaderName = 'sass', options = {}) => {
   return loaders
 }
 
-export const getServerUrls = (host, port) =>
+export const getServerUrls = (host: string, port: number): string =>
   chalk.cyan(`Webpack`) +
   chalk.green(
     ` dev server running at:\n${Object.values(os.networkInterfaces())

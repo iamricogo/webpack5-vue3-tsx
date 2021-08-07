@@ -1,10 +1,3 @@
-/*
- * @Author: Rico
- * @Date: 2021-07-31 17:17:00
- * @LastEditors: Rico
- * @LastEditTime: 2021-07-31 17:20:39
- * @Description:
- */
 module.exports = {
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -16,9 +9,21 @@ module.exports = {
       jsx: true
     }
   },
+  plugins: ['@typescript-eslint', 'sort-imports-es6-autofix'],
   extends: [
+    'eslint:recommended',
     'plugin:vue/vue3-recommended',
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    'plugin:prettier/recommended' // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
-  ]
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended'
+  ],
+  rules: {
+    'sort-imports-es6-autofix/sort-imports-es6': [
+      2,
+      {
+        ignoreCase: false,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single']
+      }
+    ]
+  }
 }

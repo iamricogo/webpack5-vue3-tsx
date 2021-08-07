@@ -1,4 +1,4 @@
-import { Plugin } from 'vue' // App是类型
+import { Plugin } from 'vue'
 import { Tag } from 'ant-design-vue'
 
 /**用于ant-design-vue插件全局重写 */

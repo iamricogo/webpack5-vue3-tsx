@@ -1,15 +1,15 @@
 import { Configuration, WebpackOptionsNormalized } from 'webpack'
-import { merge } from 'webpack-merge'
 import { getPortPromise } from 'portfinder'
-import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
-import openInEditor from 'launch-editor-middleware'
-import baseWebpackConfig from './webpack.base'
 import { getServerUrls } from './utils'
+import { merge } from 'webpack-merge'
+import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
+import baseWebpackConfig from './webpack.base'
+import openInEditor from 'launch-editor-middleware'
 interface DevServerConfiguration extends Configuration {
   devServer?: WebpackOptionsNormalized['devServer']
 }
 
-export default async () => {
+const config = async (): Promise<DevServerConfiguration> => {
   const host = process.env.HOST || '0.0.0.0'
   const port = await getPortPromise({ port: Number(process.env.PORT) || 8080 })
 
@@ -44,3 +44,5 @@ export default async () => {
     ]
   })
 }
+
+export default config
