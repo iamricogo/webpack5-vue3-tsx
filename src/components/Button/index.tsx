@@ -34,14 +34,15 @@ export default defineComponent({
     return () => (
       <button
         class={[
-          StringUtils.classNameFormat('{ui}-button'),
-          props.type
-            ? StringUtils.classNameFormat('{ui}-button{--}' + props.type)
-            : '',
-          props.size
-            ? StringUtils.classNameFormat('{ui}-button{--}' + props.size)
-            : '',
           {
+            [StringUtils.classNameFormat('{ui}-button')]: true,
+            /**类型 */
+            [StringUtils.classNameFormat('{ui}-button{--}' + props.type)]:
+              props.type,
+            /**大小 */
+            [StringUtils.classNameFormat('{ui}-button{--}' + props.size)]:
+              props.size,
+            /**状态 */
             [StringUtils.classNameFormat('{is-}disabled')]: props.disabled,
             [StringUtils.classNameFormat('{is-}loading')]: props.loading,
             [StringUtils.classNameFormat('{is-}plain')]: props.plain,

@@ -111,12 +111,8 @@ export const getServerUrls = (host: string, port: number): string =>
         host === '0.0.0.0' ? true : detail.address.includes('127.0.0.1')
       )
       .sort((a, b) => {
-        const aIsLocal = a.address.includes('127.0.0.1')
-        const bIsLocal = b.address.includes('127.0.0.1')
-        if (aIsLocal && !bIsLocal) {
-          return -1
-        }
-        return 0
+        const rule = (detail) => (detail.address.includes('127.0.0.1') ? 0 : 1)
+        return rule(a) - rule(b)
       })
       .map((detail) => {
         const type = detail.address.includes('127.0.0.1')

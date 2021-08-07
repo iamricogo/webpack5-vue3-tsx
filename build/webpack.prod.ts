@@ -59,6 +59,7 @@ const config = merge(baseWebpackConfig, {
       filename: 'assets/[name].[contenthash].css',
       chunkFilename: 'assets/[name].[contenthash].css'
     }),
+
     ...(process.env.report
       ? [
           new BundleAnalyzerPlugin({
