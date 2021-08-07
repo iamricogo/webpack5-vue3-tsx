@@ -1,7 +1,9 @@
+/**将webpack配置ts代码转为nodejs认识的commonjs规范
+ */
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es5",
+    "target": "esnext",
     "esModuleInterop": true,
     "lib": ["es2019"]
   }
