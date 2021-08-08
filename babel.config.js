@@ -3,7 +3,6 @@ module.exports = {
     [
       '@vue/babel-preset-app',
       {
-        jsx: { transformOn: true, enableObjectSlots: true },
         corejs: {
           version: 3, // 使用core-js@3
           proposals: true

@@ -1,12 +1,15 @@
 import { loader as MiniCssExtractLoader } from 'mini-css-extract-plugin'
 import { RuleSetRule } from 'webpack'
+import { join } from 'path'
 import chalk from 'chalk'
 import os from 'os'
 
 export const _typeof = (context: unknown): string =>
   Object.prototype.toString.call(context).slice(8, -1).toLowerCase()
 
-export const isDev = (): boolean => process.env.NODE_ENV === 'development'
+export const isWindows = process.platform === 'win32'
+
+export const isDev = process.env.NODE_ENV === 'development'
 
 /**
  * @param {string} key 
@@ -50,9 +53,9 @@ export const createCssLoader = (
 ): RuleSetRule['use'] => {
   const { extract, modules } = Object.assign(
     {
-      extract: !isDev(),
+      extract: !isDev,
       modules: {
-        localIdentName: isDev() ? '[path][name]__[local]' : '[hash:base64]',
+        localIdentName: isDev ? '[path][name]__[local]' : '[hash:base64]',
         auto: true
       }
     },
@@ -124,3 +127,51 @@ export const getServerUrls = (host: string, port: number): string =>
       })
       .join(`\n`)}`
   )
+
+export const progressBarFormatter = (): string =>
+  `${chalk.cyan.bold(`${isDev ? 'Compiling' : 'Building'} `)}${chalk.green.bold(
+    ':bar'
+  )}${chalk.cyan.bold(' :percent')} (:elapsed seconds)`
+
+export const genTranspileDepRegex = (
+  transpileDependencies: Array<string | RegExp>
+): RegExp | null => {
+  const deps = transpileDependencies.map((dep) => {
+    if (typeof dep === 'string') {
+      const depPath = join('node_modules', dep, '/')
+      return isWindows
+        ? depPath.replace(/\\/g, '\\\\') // double escape for windows style path
+        : depPath
+    } else if (dep instanceof RegExp) {
+      return dep.source
+    }
+  })
+  return deps.length ? new RegExp(deps.join('|')) : null
+}
+
+export const babelExclude = (
+  filepath: string,
+  transpileDependencies: Array<string | RegExp> = []
+): boolean => {
+  const transpileDepRegex = genTranspileDepRegex(transpileDependencies)
+
+  // always transpile js in vue files
+  if (/\.vue\.jsx?$/.test(filepath)) {
+    return false
+  }
+
+  // only include @babel/runtime when the @vue/babel-preset-app preset is used
+  if (
+    process.env.VUE_CLI_TRANSPILE_BABEL_RUNTIME &&
+    filepath.includes(join('@babel', 'runtime'))
+  ) {
+    return false
+  }
+
+  // check if this is something the user explicitly wants to transpile
+  if (transpileDepRegex && transpileDepRegex.test(filepath)) {
+    return false
+  }
+  // Don't transpile node_modules
+  return /node_modules/.test(filepath)
+}

@@ -1,6 +1,6 @@
 import { Configuration, DefinePlugin } from 'webpack'
 import { VueLoaderPlugin } from 'vue-loader'
-import { createCssLoader } from './utils'
+import { babelExclude, createCssLoader, progressBarFormatter } from './utils'
 import { resolve } from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ESLintWebpackPlugin from 'eslint-webpack-plugin'
@@ -8,7 +8,6 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
-import chalk from 'chalk'
 import dayjs from 'dayjs'
 import fs from 'fs'
 
@@ -29,7 +28,7 @@ const config: Configuration = {
       },
       {
         test: /\.(t|j)sx?$/,
-        exclude: /node_modules/,
+        exclude: (filepath) => babelExclude(filepath, []),
         use: [
           {
             loader: 'babel-loader'
@@ -57,6 +56,10 @@ const config: Configuration = {
     ]
   },
   plugins: [
+    ProgressBarWebpackPlugin({
+      complete: '■',
+      format: progressBarFormatter()
+    }),
     new ESLintWebpackPlugin({
       fix: true,
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue']
@@ -67,11 +70,6 @@ const config: Configuration = {
       // lintDirtyModulesOnly: true
     }),
     new VueLoaderPlugin(),
-    new ProgressBarWebpackPlugin({
-      format: `${chalk.cyan.bold(`build `)}${chalk.bold('[')}:bar${chalk.bold(
-        ']'
-      )}${chalk.green.bold(' :percent')} (:elapsed seconds)`
-    }),
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VUE_OPTIONS_API__: true,

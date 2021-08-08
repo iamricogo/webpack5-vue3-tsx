@@ -24,6 +24,7 @@ const config = async (): Promise<DevServerConfiguration> => {
       host,
       port,
       overlay: true,
+      hot: true,
       stats: 'errors-only',
       compress: true, // 为每个静态文件开启 gzip compression
       useLocalIp: true,
