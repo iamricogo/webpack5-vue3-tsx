@@ -1,14 +1,7 @@
+// process.env.VUE_CLI_MODERN_BUILD = 'true'
 module.exports = {
   presets: [
-    [
-      '@vue/babel-preset-app',
-      {
-        corejs: {
-          version: 3, // 使用core-js@3
-          proposals: true
-        }
-      }
-    ],
+    ['@vue/babel-preset-app'],
     [
       '@babel/preset-typescript', // 引用Typescript插件
       {

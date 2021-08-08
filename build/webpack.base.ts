@@ -1,6 +1,7 @@
 import { Configuration, DefinePlugin } from 'webpack'
 import { VueLoaderPlugin } from 'vue-loader'
-import { babelExclude, createCssLoader, progressBarFormatter } from './utils'
+import { babelExclude, createCssLoader } from './lib/util/loader'
+import { progressBarFormatter } from './lib/util/log'
 import { resolve } from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ESLintWebpackPlugin from 'eslint-webpack-plugin'
@@ -8,6 +9,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
+import CaseSensitivePathsWebpackPlugin from 'case-sensitive-paths-webpack-plugin'
 import dayjs from 'dayjs'
 import fs from 'fs'
 
@@ -90,7 +92,8 @@ const config: Configuration = {
     }),
 
     // fork-ts-checker-webpack-plugin，顾名思义就是创建一个新进程，专门来运行Typescript类型检查。这么做的原因是为了利用多核资源来提升编译的速度
-    new ForkTsCheckerWebpackPlugin()
+    new ForkTsCheckerWebpackPlugin(),
+    new CaseSensitivePathsWebpackPlugin()
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],

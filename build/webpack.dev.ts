@@ -1,8 +1,9 @@
 import { Configuration, WebpackOptionsNormalized } from 'webpack'
+import { formatter, transformer } from './lib/util/log'
 import { getPortPromise } from 'portfinder'
-import { getServerUrls } from './utils'
+import { getServerUrls } from './lib/util/serve'
 import { merge } from 'webpack-merge'
-import FriendlyErrorsWebpackPlugin from 'friendly-errors-webpack-plugin'
+import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin'
 import baseWebpackConfig from './webpack.base'
 import openInEditor from 'launch-editor-middleware'
 interface DevServerConfiguration extends Configuration {
@@ -37,9 +38,13 @@ const config = async (): Promise<DevServerConfiguration> => {
       }
     },
     plugins: [
+      // friendly error plugin displays very confusing errors when webpack
+      // fails to resolve a loader, so we provide custom handlers to improve it
       new FriendlyErrorsWebpackPlugin({
         compilationSuccessInfo: {
-          messages: [getServerUrls(host, port)]
+          messages: [getServerUrls(host, port)],
+          additionalTransformers: [transformer],
+          additionalFormatters: [formatter]
         }
       })
     ]
