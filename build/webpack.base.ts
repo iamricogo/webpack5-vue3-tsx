@@ -1,4 +1,4 @@
-import { Configuration, DefinePlugin } from 'webpack'
+import { Configuration, ContextReplacementPlugin, DefinePlugin } from 'webpack'
 import { VueLoaderPlugin } from 'vue-loader'
 import { babelExclude, createCssLoader } from './lib/util/loader'
 import { progressBarFormatter } from './lib/util/log'
@@ -62,6 +62,7 @@ const config: Configuration = {
       complete: '■',
       format: progressBarFormatter()
     }),
+    new ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn|en-nz/),
     new ESLintWebpackPlugin({
       fix: true,
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue']
@@ -99,7 +100,6 @@ const config: Configuration = {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],
     alias: {
       '@': resolve('src')
-      // 'vue-types': 'vue-types/shim',/** 源码中shim有bug extend方法不支持数组，导致ant-design-vue报错 github已修复并提交Pr 待回应 暂时屏蔽使用   */
     }
   }
 }

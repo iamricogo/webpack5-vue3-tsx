@@ -11,7 +11,6 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'sort-imports-es6-autofix'],
   extends: [
-    'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended'

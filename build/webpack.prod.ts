@@ -4,7 +4,6 @@ import CssMinimizerPlugin from 'css-minimizer-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserWebpackPlugin from 'terser-webpack-plugin'
 import baseWebpackConfig from './webpack.base'
-
 const config = merge(baseWebpackConfig, {
   mode: 'production',
   output: {
@@ -14,6 +13,11 @@ const config = merge(baseWebpackConfig, {
       destructuring: false
     },
     clean: true
+  },
+  resolve: {
+    alias: {
+      'vue-types': 'vue-types/shim'
+    }
   },
   optimization: {
     chunkIds: 'named',

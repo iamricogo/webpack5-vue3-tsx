@@ -2,6 +2,7 @@ import { Slots, defineComponent, reactive, ref } from 'vue'
 import { Tabs } from 'ant-design-vue'
 import Me, { IMeProps } from '@/views/me'
 import Others, { IOthersProps } from '@/views/others'
+
 interface ComData {
   com: typeof Me | typeof Others
   props: IMeProps | IOthersProps

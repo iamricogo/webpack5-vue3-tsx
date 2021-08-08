@@ -1,7 +1,10 @@
 // process.env.VUE_CLI_MODERN_BUILD = 'true'
 module.exports = {
   presets: [
-    ['@vue/babel-preset-app'],
+    [
+      '@vue/babel-preset-app',
+      { useBuiltIns: process.env.VUE_CLI_MODERN_BUILD ? false : 'usage' }
+    ],
     [
       '@babel/preset-typescript', // 引用Typescript插件
       {
@@ -16,7 +19,7 @@ module.exports = {
         libraryName: 'ant-design-vue',
         libraryDirectory: 'es',
         customStyleName: (name) => {
-          return `ant-design-vue/es/${name}/style/index`
+          return `ant-design-vue/es/${name}/style/index.css`
         }
       },
       {
