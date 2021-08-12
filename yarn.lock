@@ -9425,10 +9425,10 @@ vue-loader@16.3.3:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
-vue-types@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/vue-types/-/vue-types-4.0.2.tgz#aef6ed1ef92f1347e2e5d3ee05553453b7c86722"
-  integrity sha512-DimV9K0BPMYCs3iE52L8LzktydLU3DTYLNnWg11l3C5DFIhrQd1m6tP/37glyrFDFM48WdYm7rOOahYnLFdIhA==
+vue-types@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/vue-types/-/vue-types-4.0.3.tgz#0e0a3b88dd426b39bf161442c573b44ed34e2bb2"
+  integrity sha512-Yn/TNUaYhkC9ezET5aYJuvxDzPTfEWPIvvRWVjgVAv9vuJG3VTLoTsgJvF4KmdyliBzMum6yoD6uUYVG6245yg==
   dependencies:
     is-plain-object "5.0.0"
 
