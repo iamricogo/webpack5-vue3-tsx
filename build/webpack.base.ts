@@ -39,11 +39,37 @@ const config: Configuration = {
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: createCssLoader('sass')
+        oneOf: [
+          // 这里匹配 `<style module>`
+          {
+            resourceQuery: /module/,
+            use: createCssLoader('sass')
+          },
+          {
+            test: /\.module\.\w+$/,
+            use: createCssLoader('sass')
+          },
+          {
+            use: createCssLoader('sass', { modules: false })
+          }
+        ]
       },
       {
         test: /\.less$/,
-        use: createCssLoader('less')
+        oneOf: [
+          // 这里匹配 `<style module>`
+          {
+            resourceQuery: /module/,
+            use: createCssLoader('less')
+          },
+          {
+            test: /\.module\.\w+$/,
+            use: createCssLoader('less')
+          },
+          {
+            use: createCssLoader('less', { modules: false })
+          }
+        ]
       },
       // 处理其它资源
       {

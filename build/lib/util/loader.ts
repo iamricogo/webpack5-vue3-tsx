@@ -69,7 +69,10 @@ const preLoader = {
  */
 export const createCssLoader = (
   loaderName: 'sass' | 'less' = 'sass',
-  options: { extract?: Record<string, unknown> | boolean } = {}
+  options: {
+    extract?: Record<string, unknown> | boolean
+    modules?: unknown
+  } = {}
 ): RuleSetRule['use'] => {
   const { extract, modules } = Object.assign(
     {
@@ -94,6 +97,7 @@ export const createCssLoader = (
           )
         }
       : 'style-loader',
+    ...(modules ? ['css-modules-typescript-loader'] : []),
     {
       loader: 'css-loader',
       options: {
