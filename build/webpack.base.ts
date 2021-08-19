@@ -76,8 +76,10 @@ const config: Configuration = {
         test: /\.(woff2?|eot|ttf|otf|png|svg|jpg|gif|cur|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         type: 'asset',
         parser: {
-          dataUrlCondition: {
-            maxSize: 8 * 1024 // 8kb
+          dataUrlCondition: (source, { filename }) => {
+            const rule1 = Buffer.byteLength(source) <= 8 * 1024
+            const isSpritesmith = /_spritesmith[\\/]/.test(filename)
+            return rule1 && !isSpritesmith
           }
         }
       }
