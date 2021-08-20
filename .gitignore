@@ -3,3 +3,7 @@ node_modules
 dist
 dist-ssr
 *.local
+**/*/*.module.scss.d.ts
+**/*/*.module.sass.d.ts
+**/*/*.module.less.d.ts
+**/*/*.module.css.d.ts
