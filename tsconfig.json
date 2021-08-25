@@ -9,6 +9,9 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
@@ -19,7 +22,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "ES2018"]
   },
   "include": [
     "src/**/*.ts",

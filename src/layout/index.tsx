@@ -19,8 +19,7 @@ export default defineComponent({
     } = useStore()
 
     const route = useRoute()
-    console.log(route.meta.title)
-    console.log(router)
+
     return () => (
       <div class={[style['app-wrapper']]}>
         <div class={[style['main-container']]}>
