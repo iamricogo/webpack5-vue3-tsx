@@ -1,7 +1,6 @@
 import { IRootState } from '../'
+import { Language, setI18nLanguage } from '@/lang'
 import { Module } from 'vuex'
-import i18n, { Language } from '@/lang'
-
 export interface IAppState {
   language: Language
 }
@@ -13,10 +12,8 @@ const app: Module<IAppState, IRootState> = {
   },
   mutations: {
     SET_LANGUAGE(state, language: Language) {
+      setI18nLanguage(language)
       state.language = language
-      i18n.global.locale = language
-
-      console.log(i18n)
     }
   }
 }

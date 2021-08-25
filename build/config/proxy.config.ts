@@ -6,4 +6,12 @@ export default {
   //     '/api': '/mfoyou-agent-web'
   //   }
   // }
+
+  ...['/api'].reduce((pre, cur) => {
+    pre[cur] = {
+      target: 'https://tt.cg5.co/',
+      changeOrigin: true
+    }
+    return pre
+  }, {})
 }

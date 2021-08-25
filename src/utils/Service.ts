@@ -1,7 +1,7 @@
 import { message } from 'ant-design-vue'
 import axios, { AxiosResponse } from 'axios'
 import i18n from '@/lang'
-export interface Response<T = Record<string, unknown> | null> {
+export interface Response<T = unknown> {
   message: string
   status: number
   data?: T
@@ -24,7 +24,7 @@ service.interceptors.response.use(
     const res = response?.data
     if (!res || res.status !== 0) {
       message.error({
-        context: res?.message || i18n.global.t('requestErr')
+        content: res?.message || i18n.global.t('requestErr')
       })
 
       return Promise.reject(res)
@@ -34,7 +34,7 @@ service.interceptors.response.use(
   },
   (error) => {
     message.error({
-      message: error.message
+      content: error.message || i18n.global.t('requestErr')
     })
     return Promise.reject(error)
   }
