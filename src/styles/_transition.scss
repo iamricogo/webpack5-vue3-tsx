@@ -1,0 +1,45 @@
+/* Global transition */
+// See https://vuejs.org/v2/guide/transitions.html for detail
+
+// fade
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+// fade-transform
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.4s;
+}
+
+.fade-transform-enter {
+  transform: translateX(-30px);
+  opacity: 0;
+}
+
+.fade-transform-leave-to {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.fade-inner-height-leave-active,
+.fade-inner-height-enter-active {
+  transition: opacity 0.28s;
+  > * {
+    transition: height 0.28s;
+  }
+}
+
+.fade-inner-height-enter,
+.fade-inner-height-leave-active {
+  opacity: 0;
+  > * {
+    height: 0 !important;
+  }
+}

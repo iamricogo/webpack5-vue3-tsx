@@ -1,5 +1,7 @@
 import { Configuration, ContextReplacementPlugin, DefinePlugin } from 'webpack'
 import { VueLoaderPlugin } from 'vue-loader'
+import { transpileDependencies } from './config/babel.config'
+import SpritesmithPlugin from './config/sprites.config'
 import { babelExclude, createCssLoader } from './lib/util/loader'
 import { progressBarFormatter } from './lib/util/log'
 import { resolve } from 'path'
@@ -30,7 +32,8 @@ const config: Configuration = {
       },
       {
         test: /\.(t|j)sx?$/,
-        exclude: (filepath) => babelExclude(filepath, []),
+        exclude: (filepath) =>
+          babelExclude(filepath, transpileDependencies || []),
         use: [
           {
             loader: 'babel-loader'
@@ -122,7 +125,8 @@ const config: Configuration = {
 
     // fork-ts-checker-webpack-plugin，顾名思义就是创建一个新进程，专门来运行Typescript类型检查。这么做的原因是为了利用多核资源来提升编译的速度
     new ForkTsCheckerWebpackPlugin(),
-    new CaseSensitivePathsWebpackPlugin()
+    new CaseSensitivePathsWebpackPlugin(),
+    ...SpritesmithPlugin
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.vue'],

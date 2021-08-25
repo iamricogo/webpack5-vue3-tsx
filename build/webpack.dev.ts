@@ -1,10 +1,11 @@
 import { Configuration, WebpackOptionsNormalized } from 'webpack'
 import { formatter, transformer } from './lib/util/log'
 import { getPortPromise } from 'portfinder'
-import { getServerUrls } from './lib/util/serve'
+import { getServerUrls } from './lib/util/log'
 import { merge } from 'webpack-merge'
 import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin'
 import baseWebpackConfig from './webpack.base'
+import proxy from './config/proxy.config'
 import openInEditor from 'launch-editor-middleware'
 interface DevServerConfiguration extends Configuration {
   devServer?: WebpackOptionsNormalized['devServer']
@@ -33,6 +34,7 @@ const config = async (): Promise<DevServerConfiguration> => {
       historyApiFallback: {
         rewrites: [{ from: /./, to: '/index.html' }]
       },
+      proxy,
       before(app) {
         app.use('/__open-in-editor', openInEditor())
       }

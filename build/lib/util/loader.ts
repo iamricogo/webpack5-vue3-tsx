@@ -1,5 +1,6 @@
 import { loader as MiniCssExtractLoader } from 'mini-css-extract-plugin'
 import { RuleSetRule } from 'webpack'
+import { additionalData } from '../../config/sass.config'
 import { _typeof, isDev, isWindows } from './shared'
 import { join } from 'path'
 
@@ -58,7 +59,12 @@ const preLoader = {
       }
     }
   },
-  sass: 'sass-loader'
+  sass: {
+    loader: 'sass-loader',
+    options: {
+      additionalData
+    }
+  }
 }
 
 /**

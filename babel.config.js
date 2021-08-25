@@ -1,4 +1,5 @@
-// process.env.VUE_CLI_MODERN_BUILD = 'true'
+//VUE_CLI_MODERN_BUILD变量给@vue/babel-preset-app内部处理target
+process.env.MODERN_BUILD && (process.env.VUE_CLI_MODERN_BUILD = 'true')
 module.exports = {
   presets: [
     [
@@ -28,6 +29,13 @@ module.exports = {
         customStyleName: (name) => {
           name = name.slice(3)
           return `element-plus/packages/theme-chalk/src/${name}.scss`
+        }
+      },
+      {
+        libraryName: 'element-ui',
+        libraryDirectory: 'lib',
+        customStyleName: (name) => {
+          return `element-ui/lib/theme-chalk/${name}.css`
         }
       },
       {

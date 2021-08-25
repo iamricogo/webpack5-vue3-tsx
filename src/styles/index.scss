@@ -1,2 +1,21 @@
-@import 'common/var.scss';
-@import 'common/icon.scss';
+@import './common';
+@import './transition';
+@import './font';
+
+/* Global scss */
+html {
+  box-sizing: border-box;
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  body {
+    height: 100%;
+    font-size: 16px;
+    font-family: Avenir, 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @include scroll-bar;
+    #app {
+      height: 100%;
+    }
+  }
+}

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack serve --config build/webpack.dev.ts",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.ts"
+    "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.ts",
+    "build:modern": "cross-env MODERN_BUILD=true npm run build"
   },
   "lint-staged": {
     "src/**/*.{vue,js,jsx,ts,tsx}": [
@@ -19,11 +20,17 @@
   },
   "dependencies": {
     "ant-design-vue": "^2.2.2",
+    "axios": "^0.21.1",
     "core-js": "^3.16.0",
+    "normalize.css": "^8.0.1",
     "regenerator-runtime": "^0.13.9",
     "rxjs": "^7.3.0",
     "vue": "^3.0.5",
-    "vue-types": "4.0.3"
+    "vue-i18n": "^9.1.7",
+    "vue-router": "4",
+    "vue-types": "4.0.3",
+    "vuex": "4",
+    "vuex-persistedstate": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.8",
@@ -84,6 +91,7 @@
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.8.0",
+    "webpack-spritesmith": "^1.1.0"
   }
 }

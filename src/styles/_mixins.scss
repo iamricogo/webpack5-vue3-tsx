@@ -1,0 +1,101 @@
+@use 'sass:math';
+@mixin clearfix {
+  $selector: &;
+
+  @at-root {
+    #{$selector}::before,
+    #{$selector}::after {
+      display: table;
+      content: '';
+    }
+    #{$selector}::after {
+      clear: both;
+    }
+  }
+}
+
+@mixin vertical-center {
+  $selector: &;
+
+  @at-root {
+    #{$selector}::after {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      content: '';
+    }
+  }
+}
+
+@mixin ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Scrollbar
+ -------------------------- */
+@mixin scroll-bar {
+  $--scrollbar-thumb-background: #b4bccc;
+  $--scrollbar-track-background: #fff;
+  $--scrollbar-width: 4px;
+  &::-webkit-scrollbar {
+    z-index: 11;
+    width: $--scrollbar-width;
+
+    &-thumb {
+      width: $--scrollbar-width;
+      background: $--scrollbar-thumb-background;
+      border-radius: 5px;
+    }
+
+    &-corner {
+      background: $--scrollbar-track-background;
+    }
+
+    &-track {
+      background: $--scrollbar-track-background;
+
+      &-piece {
+        width: $--scrollbar-width;
+        background: $--scrollbar-track-background;
+      }
+    }
+
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    &:horizontal {
+      height: 6px;
+    }
+  }
+}
+
+/* Placeholder
+ -------------------------- */
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+/* 精灵合图进行缩放 */
+@mixin sprite-scale($sprite, $scaleX: 1, $scaleY: $scaleX) {
+  width: nth($sprite, 5) * $scaleX;
+  height: nth($sprite, 6) * $scaleY;
+  background-image: url(nth($sprite, 9));
+  background-position: nth($sprite, 3) * $scaleX nth($sprite, 4) * $scaleY;
+  background-size: nth($sprite, 7) * $scaleX nth($sprite, 8) * $scaleY;
+}
+
+@mixin sprite-size($sprite, $width: nth($sprite, 5), $height: nth($sprite, 6)) {
+  $scaleX: math.div($width, nth($sprite, 5));
+  $scaleY: math.div($height, nth($sprite, 6));
+  @include sprite-scale($sprite, $scaleX, $scaleY);
+}
