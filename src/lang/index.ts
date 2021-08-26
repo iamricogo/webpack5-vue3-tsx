@@ -1,14 +1,22 @@
 import { I18n, createI18n } from 'vue-i18n'
-import { Ref } from 'vue'
-import enLocale from './en'
+import { Ref, WritableComputedRef } from 'vue'
+
+import enLocale from './locales/en-US'
 import store from '@/store'
-import zhLocale from './zh-CN'
+import zhLocale from './locales/zh-CN'
 
 type MessageSchema = typeof enLocale
 
-export type Language = 'en-US' | 'zh-CN'
+export const language = ['en-US', 'zh-CN'] as const
 
-const i18n = createI18n<[MessageSchema], Language>({
+export type Language = typeof language[number]
+
+const i18n = createI18n<
+  [MessageSchema],
+  Language,
+  false,
+  { legacy: false; messages: Record<Language, MessageSchema>; locale: Language }
+>({
   legacy: false,
   locale: store.state.app.language,
   messages: {
@@ -28,7 +36,7 @@ export const setI18nLanguage = (
   if (instance.mode === 'legacy') {
     instance.global.locale = locale
   } else {
-    ;(instance.global.locale as Ref).value = locale
+    ;(instance as typeof i18n).global.locale.value = locale
   }
 }
 

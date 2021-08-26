@@ -4,7 +4,7 @@ import { defineComponent } from 'vue'
 
 import AppTypes from '@/vue-types'
 
-export type IOthersProps = ExtractOutPropTypes<typeof iOthersProps>
+export type IOthersProps = ExtractPropTypesOut<typeof iOthersProps>
 
 const iOthersProps = {
   title: AppTypes.string.isRequired

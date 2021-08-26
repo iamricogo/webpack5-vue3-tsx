@@ -1,20 +1,20 @@
+import { Ref, computed, defineComponent, inject, ref } from 'vue'
 import { Tag } from 'ant-design-vue'
-import { defineComponent } from 'vue'
+import { UpdateProvide } from '@/App'
 import { useI18n } from '@/lang'
-import AppTypes, { func } from '@/vue-types'
+import Button, { IButtonProps } from '@/components/Button'
 import Service from './service'
 import logo from '@/assets/images/logo.png'
-export type IMeProps = ExtractOutPropTypes<typeof iMeProps>
-
-export const iMeProps = {
-  title: AppTypes.string.isRequired,
-  onTap: func<(value: number) => void>()
-}
 
 export default defineComponent({
   name: 'Home',
   setup: () => {
     const { t } = useI18n()
+
+    const userLocation = inject<Ref<string>>('location', ref('The Universe'))
+    const userUpdateProvide = inject<UpdateProvide>('updateProvide')
+    const count = ref(0)
+
     const onSubmit = async () => {
       try {
         const {
@@ -36,9 +36,22 @@ export default defineComponent({
         console.log(error)
       }
     }
+
+    const buttonPropsComputed = computed<IButtonProps>({
+      get: () => ({
+        label: userLocation.value,
+        onTap: () => {
+          userUpdateProvide?.location(++count.value + '')
+        }
+      }),
+      set: (val) => console.log(val)
+    })
+
     return () => (
       <div>
         <Tag color="purple">{t('hello')}</Tag>
+        <Button {...buttonPropsComputed.value} />
+
         <img alt="Vue logo" src={logo} onClick={onSubmit} />
       </div>
     )

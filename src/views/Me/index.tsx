@@ -1,9 +1,9 @@
+import { ExtractPropTypes, defineComponent } from 'vue'
 import { Tag } from 'ant-design-vue'
-import { defineComponent } from 'vue'
 import AppTypes, { func } from '@/vue-types'
 import logo from '@/assets/images/logo.png'
 import style from './style.module.scss'
-export type IMeProps = ExtractOutPropTypes<typeof iMeProps>
+export type IMeProps = ExtractPropTypes<typeof iMeProps>
 
 export const iMeProps = {
   title: AppTypes.string.isRequired,
