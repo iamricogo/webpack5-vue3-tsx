@@ -1,11 +1,9 @@
 import { I18n, createI18n } from 'vue-i18n'
-import { Ref, WritableComputedRef } from 'vue'
-
-import enLocale from './locales/en-US'
+import localeEn from './locales/en-US'
+import localeZh from './locales/zh-CN'
 import store from '@/store'
-import zhLocale from './locales/zh-CN'
 
-type MessageSchema = typeof enLocale
+type MessageSchema = typeof localeEn
 
 export const language = ['en-US', 'zh-CN'] as const
 
@@ -21,10 +19,10 @@ const i18n = createI18n<
   locale: store.state.app.language,
   messages: {
     'en-US': {
-      ...enLocale
+      ...localeEn
     },
     'zh-CN': {
-      ...zhLocale
+      ...localeZh
     }
   }
 })
