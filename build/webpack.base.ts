@@ -12,7 +12,6 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
 import CaseSensitivePathsWebpackPlugin from 'case-sensitive-paths-webpack-plugin'
-import dayjs from 'dayjs'
 import fs from 'fs'
 
 const config: Configuration = {
@@ -110,7 +109,7 @@ const config: Configuration = {
       __VUE_PROD_DEVTOOLS__: false
     }),
     new HtmlWebpackPlugin({
-      version: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      version: new Date().toString(),
       template: resolve(__dirname, '../index.html')
     }),
 
