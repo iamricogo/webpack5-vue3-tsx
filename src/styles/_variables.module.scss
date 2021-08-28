@@ -1,19 +1,8 @@
 /* Variables */
 
-$menuBg: #0009;
-$menuBgHover: transparent;
-$menuText: #fff;
-$menuActiveText: #fcd404;
-$menuFontSize: 16px;
-$menuHeight: 90px;
-$responsiveWidth: 992px;
+$headerHeight: 60px;
 
 /* stylelint-disable */
 :export {
-  menuBg: #{$menuBg};
-  menuBgHover: #{$menuBgHover};
-  menuText: #{$menuText};
-  menuActiveText: #{$menuActiveText};
-  menuHeight: #{$menuHeight};
-  responsiveWidth: #{$responsiveWidth};
+  headerHeight: #{$headerHeight};
 }

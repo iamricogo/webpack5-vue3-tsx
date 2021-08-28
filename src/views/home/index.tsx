@@ -5,7 +5,7 @@ import { useI18n } from '@/lang'
 import Button, { IButtonProps } from '@/components/Button'
 import Service from './service'
 import logo from '@/assets/images/logo.png'
-
+import style from './style.module.scss'
 export default defineComponent({
   name: 'Home',
   setup: () => {
@@ -48,11 +48,13 @@ export default defineComponent({
     })
 
     return () => (
-      <div>
+      <div class={[style.home]}>
         <Tag color="purple">{t('hello')}</Tag>
-        <Button {...buttonPropsComputed.value} />
+        <div>
+          <Button {...buttonPropsComputed.value} />
 
-        <img alt="Vue logo" src={logo} onClick={onSubmit} />
+          <img alt="Vue logo" src={logo} onClick={onSubmit} />
+        </div>
       </div>
     )
   }

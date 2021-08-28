@@ -29,10 +29,6 @@ export default defineComponent({
     provide('location', readonly(location))
     provide('geolocation', readonly(geolocation))
     provide('updateProvide', readonly(updateProvide))
-    return () => (
-      <div id="app">
-        <router-view />
-      </div>
-    )
+    return () => <router-view />
   }
 })

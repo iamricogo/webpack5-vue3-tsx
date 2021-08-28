@@ -9,11 +9,23 @@
     display: flex;
     flex-direction: column;
     min-height: 100%;
-
-    main {
+    header {
+      &.fixed-header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        z-index: 9;
+        width: 100%;
+        & + main {
+          padding-top: $headerHeight;
+        }
+      }
+    }
+    > main {
       position: relative;
       flex: 1 0 auto;
       width: 100%;
+      overflow-x: hidden;
     }
   }
 }
