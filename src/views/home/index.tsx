@@ -41,13 +41,16 @@ export default defineComponent({
       }
     }, 300)
 
+    let logoAnimation: Animation | null = null
+
     const buttonStyle = reactive({
       transform: `translate3d(0,0,0)`
     })
 
     const onButtonTap = debounce(() => {
+      if (logoAnimation && logoAnimation.isAnimating) return
       const start = state.count
-      new Animation({ count: start })
+      logoAnimation = new Animation({ count: start })
         .to({ count: state.count + 60 }, 10 * 1000, Ease.bounce)
         .on('update', ({ count }, progress) => {
           updateState({ count: MathUtils.round(count) })
@@ -74,12 +77,13 @@ export default defineComponent({
       <div class={[style.home]}>
         <Tag color="purple">{t('hello')}</Tag>
         <div>
-          <img alt="Vue logo" src={logo} onClick={onSubmit} />
-          <Button
-            label={String(state.count)}
-            onTap={onButtonTap}
+          <img
             style={buttonStyle}
+            alt="Vue logo"
+            src={logo}
+            onClick={onSubmit}
           />
+          <Button label={String(state.count)} onTap={onButtonTap} />
         </div>
       </div>
     )
