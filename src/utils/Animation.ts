@@ -4,7 +4,8 @@ export enum Ease {
   circular = 'circular',
   back = 'back',
   bounce = 'bounce',
-  elastic = 'elastic'
+  elastic = 'elastic',
+  line = 'line'
 }
 
 export interface EaseItem {
@@ -12,6 +13,9 @@ export interface EaseItem {
 }
 
 export const easeMap: Record<Ease, EaseItem> = {
+  [Ease.line]: {
+    fn: (t: number) => t
+  },
   [Ease.quadratic]: {
     fn: (t: number) => t * (2 - t)
   },
@@ -73,14 +77,14 @@ export default class Animation extends EventEmitter {
     return +new Date()
   }
 
-  private setTarget(callback: (key: string) => number): void {
+  private setTarget(callback: (key: string) => number, progress: number): void {
     for (const key in this.target) {
       if (Object.prototype.hasOwnProperty.call(this.target, key)) {
         this.target[key] = callback(key)
       }
     }
 
-    this.emit('update', this.target)
+    this.emit('update', this.target, progress)
   }
 
   public to(end: Target, duration: number, ease: Ease = Ease.circular): this {
@@ -100,13 +104,16 @@ export default class Animation extends EventEmitter {
       if (now < endTime) {
         const t = (now - startTime) / duration
         const easing = easeMap[ease].fn(t) //progress;
-        this.setTarget((key) => (end[key] - start[key]) * easing + start[key])
+        this.setTarget(
+          (key) => (end[key] - start[key]) * easing + start[key],
+          easing
+        )
         if (this.isAnimating) {
           raf(step)
         }
       } else {
         this.isAnimating = false
-        this.setTarget((key) => end[key])
+        this.setTarget((key) => end[key], 1)
         this.emit('complete', this.target)
       }
     }
