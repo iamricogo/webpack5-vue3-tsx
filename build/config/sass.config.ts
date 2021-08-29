@@ -1,6 +1,5 @@
 export const additionalData = ` 
-@import "@/styles/_variables.module.scss";
-@import "@/styles/_mixins.scss";
-@import '@/assets/images/sprites/main/_spritesmith/main.scss';
-
+@use "@/styles/_variables.module.scss" as *;
+@use "@/styles/_mixins.scss" as *;
+@use "@/assets/images/sprites/main/_spritesmith/main.scss" as *;
 `

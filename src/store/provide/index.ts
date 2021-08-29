@@ -1,15 +1,19 @@
+import { InjectionKey, inject, provide, reactive, readonly } from 'vue'
 import { merge } from 'lodash'
-import { reactive } from 'vue'
 interface State {
   count: number
 }
 
+export const key: InjectionKey<Store> = Symbol()
+
 export interface Store {
   state: State
-  mutations: Record<string, (newState: Partial<State>) => void>
+  mutations: {
+    updateState: (newState: Partial<State>) => void
+  }
 }
 
-export default (): Store => {
+const createStore = (): void => {
   const store = reactive<Store>({
     state: {
       count: 0
@@ -22,5 +26,9 @@ export default (): Store => {
     }
   })
 
-  return store
+  provide(key, readonly(store))
 }
+
+export default createStore
+
+export const useStore = (): Store => inject<Store>(key) as NonNullable<Store>

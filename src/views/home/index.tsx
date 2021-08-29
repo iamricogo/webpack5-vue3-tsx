@@ -1,24 +1,23 @@
-import { Store } from '@/store/provide'
 import { Tag } from 'ant-design-vue'
 import { debounce } from 'lodash'
-import { defineComponent, inject, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useI18n } from '@/lang'
+import { useStore } from '@/store/provide'
 import Animation, { Ease } from '@/utils/Animation'
 import Button from '@/components/Button'
 import MathUtils from '@/utils/MathUtils'
 import Service from './service'
 import logo from '@/assets/images/logo.png'
 import style from './style.module.scss'
+
 export default defineComponent({
   name: 'Home',
   setup: () => {
-    const { t } = useI18n()
-
     const {
       state,
       mutations: { updateState }
-    } = inject<Store>('store') as NonNullable<Store>
-
+    } = useStore()
+    const { t } = useI18n()
     const onSubmit = debounce(async () => {
       try {
         const {
@@ -42,10 +41,37 @@ export default defineComponent({
     }, 300)
 
     let logoAnimation: Animation | null = null
+    const startPointData = {
+      x: 0,
+      y: 0,
+      backgroundColor: 'transparent'
+    }
+    const points = ref([startPointData])
+    const position = reactive({ x: 0, y: 0 })
 
-    const buttonStyle = reactive({
-      transform: `translate3d(0,0,0)`
-    })
+    const circleMove = (progress: number): void => {
+      const r = 100
+      const times = 1
+
+      const point = {
+        x: r,
+        y: 0
+      }
+
+      const d = Math.PI * 2 * times * progress
+
+      const x = point.x - Math.cos(d) * r
+
+      const y = -point.y - Math.sin(d) * r
+
+      position.x = x
+      position.y = y
+      points.value.push({ x, y, backgroundColor: getRandomColor() })
+    }
+
+    const getRandomColor = () =>
+      '#' +
+      ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6)
 
     const onButtonTap = debounce(() => {
       if (logoAnimation && logoAnimation.isAnimating) return
@@ -55,30 +81,32 @@ export default defineComponent({
         .on('update', ({ count }, progress) => {
           updateState({ count: MathUtils.round(count) })
 
-          const r = 100
-          const times = 1
-
-          const point = {
-            x: r,
-            y: 0
-          }
-
-          const d = Math.PI * 2 * times * progress
-
-          const x = point.x - Math.cos(d) * r
-
-          const y = -point.y - Math.sin(d) * r
-
-          buttonStyle.transform = `translate3d(${x}px,${y}px,0)`
+          circleMove(progress)
+        })
+        .on('complete', () => {
+          console.log('complete')
+          points.value = [startPointData]
         })
     }, 300)
 
     return () => (
       <div class={[style.home]}>
         <Tag color="purple">{t('hello')}</Tag>
-        <div>
+        <div style={{ position: 'relative' }}>
+          {points.value.map(({ x, y, backgroundColor }, i) => (
+            <span
+              key={i}
+              class={[style.point]}
+              style={{
+                transform: `translate3d(${x}px,${y}px,0)`,
+                backgroundColor
+              }}
+            ></span>
+          ))}
           <img
-            style={buttonStyle}
+            style={{
+              transform: `translate3d(${position.x}px,${position.y}px,0)`
+            }}
             alt="Vue logo"
             src={logo}
             onClick={onSubmit}

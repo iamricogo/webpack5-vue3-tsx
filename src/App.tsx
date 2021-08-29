@@ -1,5 +1,5 @@
-import { defineComponent, provide, readonly } from 'vue'
-import useProvideStore from '@/store/provide'
+import { defineComponent } from 'vue'
+import createStore from '@/store/provide'
 interface Geolocation {
   longitude: number
   latitude: number
@@ -11,8 +11,7 @@ export interface UpdateProvide {
 export default defineComponent({
   name: 'App',
   setup: () => {
-    const store = useProvideStore()
-    provide('store', readonly(store))
+    createStore()
     return () => <router-view />
   }
 })

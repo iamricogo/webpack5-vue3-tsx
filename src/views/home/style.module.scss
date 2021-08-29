@@ -1,11 +1,23 @@
+@use 'sass:math';
 .home {
   > div {
     display: block;
+    $top: 100px;
+    $imgSize: 40px;
+    $pointR: 5px;
+    .point {
+      position: absolute;
+      top: $top + $imgSize - math.div($pointR, 2);
+      left: math.div($imgSize - $pointR, 2);
+      display: inline-block;
+      width: $pointR;
+      height: $pointR;
+      border-radius: 50%;
+    }
     img {
-      position: relative;
-      z-index: 30;
-      width: 50px;
-      height: 50px;
+      width: $imgSize;
+      height: $imgSize;
+      margin-top: $top;
     }
   }
 
