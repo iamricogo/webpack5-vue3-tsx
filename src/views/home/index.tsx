@@ -75,17 +75,18 @@ export default defineComponent({
 
     const onButtonTap = debounce(() => {
       if (logoAnimation && logoAnimation.isAnimating) return
-      const start = state.count
+      const start = state.count,
+        duration = 1000 * 10
       logoAnimation = new Animation({ count: start })
-        .to({ count: state.count + 60 }, 10 * 1000, Ease.bounce)
+        .to({ count: state.count + 1000 * 10 }, duration, Ease.bounce)
         .on('update', ({ count }, progress) => {
-          updateState({ count: MathUtils.round(count) })
+          updateState({ count })
 
           circleMove(progress)
         })
         .on('complete', () => {
           console.log('complete')
-          points.value = [startPointData]
+          // points.value = [startPointData]
         })
     }, 300)
 
@@ -111,7 +112,10 @@ export default defineComponent({
             src={logo}
             onClick={onSubmit}
           />
-          <Button label={String(state.count)} onTap={onButtonTap} />
+          <Button
+            label={MathUtils.numberFormat(state.count)}
+            onTap={onButtonTap}
+          />
         </div>
       </div>
     )
