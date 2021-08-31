@@ -21,6 +21,7 @@
   "dependencies": {
     "ant-design-vue": "^2.2.2",
     "axios": "^0.21.1",
+    "big.js": "^6.1.1",
     "core-js": "^3.16.0",
     "normalize.css": "^8.0.1",
     "regenerator-runtime": "^0.13.9",
@@ -38,6 +39,7 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@soda/friendly-errors-webpack-plugin": "^1.8.0",
+    "@types/big.js": "^6.1.1",
     "@types/node": "^15.12.1",
     "@types/webpack-env": "^1.16.2",
     "@typescript-eslint/eslint-plugin": "^4.29.0",

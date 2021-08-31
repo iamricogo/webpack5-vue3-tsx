@@ -1,11 +1,11 @@
 import { Tag } from 'ant-design-vue'
 import { debounce } from 'lodash'
 import { defineComponent, reactive, ref } from 'vue'
+import { numberFormat } from '@/utils/MathUtils'
 import { useI18n } from '@/lang'
 import { useStore } from '@/store/provide'
 import Animation, { Ease } from '@/utils/Animation'
 import Button from '@/components/Button'
-import MathUtils from '@/utils/MathUtils'
 import Service from './service'
 import logo from '@/assets/images/logo.png'
 import style from './style.module.scss'
@@ -112,10 +112,7 @@ export default defineComponent({
             src={logo}
             onClick={onSubmit}
           />
-          <Button
-            label={MathUtils.numberFormat(state.count)}
-            onTap={onButtonTap}
-          />
+          <Button label={numberFormat(state.count)} onTap={onButtonTap} />
         </div>
       </div>
     )
