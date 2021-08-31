@@ -1,7 +1,7 @@
 import { Tag } from 'ant-design-vue'
 import { debounce } from 'lodash'
 import { defineComponent, reactive, ref } from 'vue'
-import { numberFormat } from '@/utils/MathUtils'
+import { numberFormat } from '@/utils/FormatterUtils'
 import { useI18n } from '@/lang'
 import { useStore } from '@/store/provide'
 import Animation, { Ease } from '@/utils/Animation'
