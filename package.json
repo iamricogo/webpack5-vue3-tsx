@@ -2,7 +2,8 @@
   "name": "my-vue-app",
   "version": "0.0.0",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack serve --config build/webpack.dev.ts",
+    "prepare": "husky install",
+    "start": "npm run prepare & cross-env NODE_ENV=development webpack serve --config build/webpack.dev.ts",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.ts",
     "build:modern": "cross-env MODERN_BUILD=true npm run build"
   },
