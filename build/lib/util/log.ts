@@ -1,6 +1,7 @@
 import { isDev } from './shared'
 import chalk from 'chalk'
 import os from 'os'
+
 const rules = [
   {
     type: 'cant-resolve-loader',
@@ -11,7 +12,9 @@ const rules = [
   }
 ]
 
-export const transformer = (error) => {
+export const transformer = (
+  error: Record<string, Record<string, string>>
+): unknown => {
   if (error.webpackError) {
     const message =
       typeof error.webpackError === 'string'
@@ -40,7 +43,7 @@ export const transformer = (error) => {
   return error
 }
 
-export const formatter = (errors) => {
+export const formatter = (errors: Record<string, unknown>[]): unknown[] => {
   errors = errors.filter((e) => e.shortMessage)
   if (errors.length) {
     return errors.map((e) => e.shortMessage)
@@ -56,7 +59,7 @@ export const getServerUrls = (host: string, port: number): string =>
   chalk.cyan(`Webpack`) +
   chalk.green(
     ` dev server running at:\n${Object.values(os.networkInterfaces())
-      .flatMap((nInterface) => nInterface || [])
+      .flatMap((nInterface) => (nInterface ? nInterface : []))
       .filter((detail) => detail.family === 'IPv4')
       .filter((detail) =>
         host === '0.0.0.0' ? true : detail.address.includes('127.0.0.1')
@@ -70,7 +73,7 @@ export const getServerUrls = (host: string, port: number): string =>
           ? 'Local:   '
           : 'Network: '
         const host = detail.address.replace('127.0.0.1', 'localhost')
-        const url = `http://${host}:${chalk.bold(port)}`
+        const url = `http://${host}:${chalk.bold(String(port))}`
         return `  > ${type} ${chalk.cyan(url)}`
       })
       .join(`\n`)}`

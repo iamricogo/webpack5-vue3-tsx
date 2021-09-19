@@ -1,7 +1,7 @@
 import { loader as MiniCssExtractLoader } from 'mini-css-extract-plugin'
 import { RuleSetRule } from 'webpack'
-import { additionalData } from '../../config/sass.config'
 import { _typeof, isDev, isWindows } from './shared'
+import { additionalData } from '../../config/sass.config'
 import { join } from 'path'
 
 const genTranspileDepRegex = (
