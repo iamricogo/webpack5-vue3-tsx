@@ -56,7 +56,7 @@ export const getServerUrls = (host: string, port: number): string =>
   chalk.cyan(`Webpack`) +
   chalk.green(
     ` dev server running at:\n${Object.values(os.networkInterfaces())
-      .flatMap((nInterface) => nInterface ?? [])
+      .flatMap((nInterface) => nInterface || [])
       .filter((detail) => detail.family === 'IPv4')
       .filter((detail) =>
         host === '0.0.0.0' ? true : detail.address.includes('127.0.0.1')
