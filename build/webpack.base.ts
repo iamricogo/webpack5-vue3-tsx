@@ -84,6 +84,18 @@ const config: Configuration = {
             return rule1 && !isSpritesmith
           }
         }
+      },
+      {
+        test: /\.sprites\.(json|xml)(\?.*)?$/,
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'sprites-loader',
+            options: {
+              esModule: false
+            }
+          }
+        ]
       }
     ]
   },
@@ -132,6 +144,9 @@ const config: Configuration = {
     alias: {
       '@': resolve('src')
     }
+  },
+  resolveLoader: {
+    modules: ['node_modules', resolve(__dirname, './lib/loader')]
   }
 }
 

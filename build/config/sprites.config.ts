@@ -28,7 +28,15 @@ export default [
       },
       target: {
         image: `${outputPath}/${namespace}.png`,
-        css: [[`${outputPath}/${namespace}.scss`]]
+        css: [
+          [`${outputPath}/${namespace}.scss`],
+          [
+            `${outputPath}/${namespace}.sprites.json`,
+            {
+              format: 'json_texture'
+            }
+          ]
+        ]
       },
 
       apiOptions: {
