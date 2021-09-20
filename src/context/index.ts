@@ -1,4 +1,4 @@
-import { App } from 'Vue'
+import { App } from 'vue'
 import { Application } from 'pixi.js'
 import { Device } from './Device'
 import { EventEmitter } from 'events'
