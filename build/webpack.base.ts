@@ -87,7 +87,7 @@ const config: Configuration = {
       },
       // 处理精灵图位置描述资源
       {
-        test: /\.sprites\.(json|xml)(\?.*)?$/,
+        test: /\.sprites\.(json|(ht|x)ml)(\?.*)?$/,
         type: 'javascript/auto',
         use: [
           {
