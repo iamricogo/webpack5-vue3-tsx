@@ -1,35 +1,41 @@
 const loaderUtils = require('loader-utils')
 const path = require('path')
 const utils = require('./utils')
-module.exports = async function (content) {
+module.exports = async function (content, options = {}) {
   options = Object.assign(
-    loaderUtils.getOptions(this) || {},
     {
       name: 'assets/[name].[contenthash].[ext]'
     },
-    loaderUtils.getOptions(this) || {}
+    loaderUtils.getOptions(this) || {},
+    options
   )
 
   const reg = /(\w|-|~|@|\/)+\.(png|jpg)/g
+  const contentEmitDir = path.dirname(utils.getEmitName(this, content, options))
+  const newContent = await utils.replaceAsync(content, reg, async (match) => {
+    const request = loaderUtils.urlToRequest(match)
+    const realPath = await utils.resolve(this, request)
+    if (realPath) {
+      this.addDependency(realPath)
+      const ext = path.extname(match)
+      const name = path.basename(match, ext)
+      const imgContent = await utils.readFile(realPath)
+      const args = [
+        this,
+        imgContent,
+        {
+          name:
+            options.name.replace(/\.\[(\w|-)+\]/g, '') +
+            `.${name}.[contenthash]${ext}`
+        }
+      ]
 
-  return utils.emitFile(
-    this,
-    await utils.replaceAsync(content, reg, async (match) => {
-      const request = loaderUtils.urlToRequest(match)
+      utils.fileLoader(...args)
+      const imgEmitName = utils.getEmitName(...args)
+      return path.posix.relative(contentEmitDir, imgEmitName)
+    }
+    return match
+  })
 
-      const realPath = await utils.reslove(this, request)
-
-      if (realPath) {
-        const ext = path.extname(match)
-        const name = path.basename(match, ext)
-        return utils.getAssetsPath(
-          utils.emitFile(this, await utils.readFile(realPath), {
-            name: options.name.replace('[name]', name).replace('.[ext]', ext),
-            publicPath: '../'
-          })
-        )
-      }
-      return match
-    })
-  )
+  return utils.fileLoader(this, newContent, options)
 }

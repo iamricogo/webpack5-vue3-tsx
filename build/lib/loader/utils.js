@@ -1,16 +1,5 @@
 const fs = require('fs')
 const loaderUtils = require('loader-utils')
-const isExists = (dir) => {
-  return new Promise((resolve, reject) => {
-    fs.access(dir, (err) => {
-      if (err) {
-        resolve(false)
-      } else {
-        resolve(true)
-      }
-    })
-  })
-}
 
 const replaceAsync = async (str, regex, asyncFn) => {
   const promises = []
@@ -35,33 +24,17 @@ const readFile = (dir, type) => {
   })
 }
 
-const emitFile = (loaderContext, content, options = {}) => {
+const fileLoader = (loaderContext, content, options = {}) => {
   options = Object.assign(
     {},
     loaderUtils.getOptions(loaderContext) || {},
     options
   )
-  const context = options.context || loaderContext.rootContext
-  const url = loaderUtils.interpolateName(
-    loaderContext,
-    options.name || '[contenthash].[ext]',
-    {
-      context,
-      content,
-      regExp: options.regExp
-    }
-  )
 
-  let outputPath = url
-  if (options.outputPath) {
-    if (typeof options.outputPath === 'function') {
-      outputPath = options.outputPath(url, loaderContext.resourcePath, context)
-    } else {
-      outputPath = path.posix.join(options.outputPath, url)
-    }
-  }
+  const emitName =
+    options.emitName || getEmitName(loaderContext, content, options)
 
-  let publicPath = `__webpack_public_path__ + ${JSON.stringify(outputPath)}`
+  let publicPath = `__webpack_public_path__ + ${JSON.stringify(emitName)}`
 
   if (options.publicPath) {
     if (typeof options.publicPath === 'function') {
@@ -82,7 +55,7 @@ const emitFile = (loaderContext, content, options = {}) => {
   }
 
   if (typeof options.emitFile === 'undefined' || options.emitFile) {
-    loaderContext.emitFile(outputPath, content)
+    loaderContext.emitFile(emitName, content)
   }
 
   const esModule =
@@ -92,24 +65,49 @@ const emitFile = (loaderContext, content, options = {}) => {
   return `${esModule ? 'export default' : 'module.exports ='} ${publicPath};`
 }
 
-const getAssetsPath = (str) => {
-  return str.match(/\"(.+?)\"/)[1]
+const getEmitName = (loaderContext, content, options = {}) => {
+  options = Object.assign(
+    {},
+    loaderUtils.getOptions(loaderContext) || {},
+    options
+  )
+  const context = options.context || loaderContext.rootContext
+  const url = loaderUtils.interpolateName(
+    loaderContext,
+    options.name || '[contenthash].[ext]',
+    {
+      context,
+      content,
+      regExp: options.regExp
+    }
+  )
+
+  let emitName = url
+  if (options.outputPath) {
+    if (typeof options.outputPath === 'function') {
+      emitName = options.outputPath(url, loaderContext.resourcePath, context)
+    } else {
+      emitName = path.posix.join(options.outputPath, url)
+    }
+  }
+
+  return emitName
 }
 
 //像 require 表达式一样解析一个 request 。
-const reslove = (loaderContext, request) => {
+const resolve = (loaderContext, request, context) => {
+  context = context || loaderContext.context
   return new Promise((resolve, reject) => {
-    loaderContext.resolve(loaderContext.context, request, (err, result) => {
+    loaderContext.resolve(context, request, (err, result) => {
       resolve(result)
     })
   })
 }
 
 module.exports = {
-  isExists,
   replaceAsync,
   readFile,
-  emitFile,
-  getAssetsPath,
-  reslove
+  fileLoader,
+  getEmitName,
+  resolve
 }

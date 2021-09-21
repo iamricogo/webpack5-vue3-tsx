@@ -1,7 +1,8 @@
-import { Container, Sprite } from 'pixi.js'
+import { BitmapText, Container, Sprite } from 'pixi.js'
 import { Events } from '@/const'
 import { Resources } from '@/resources'
 import { emitter, resolution } from '@/context'
+import dayjs from 'dayjs'
 export default class ParallaxScroller extends Container {
   constructor() {
     super()
@@ -17,8 +18,8 @@ export default class ParallaxScroller extends Container {
   private postition = 0
   private background: Sprite[] = []
   private foreground: Sprite[] = []
+  private time!: BitmapText
   private initParallaxScroller(): void {
-    console.log(Resources.main.textures)
     Array.from({ length: 2 }).forEach(() => {
       const background = new Sprite(Resources.main.textures?.['bgtile.jpg'])
       background.scale.set(this.scaleValue)
@@ -30,6 +31,9 @@ export default class ParallaxScroller extends Container {
       this.foreground.push(foreground)
 
       this.addChild(...this.background, ...this.foreground)
+    })
+    this.setTime({
+      text: dayjs().format('HH:mm:ss')
     })
   }
 
@@ -53,10 +57,28 @@ export default class ParallaxScroller extends Container {
     clone.x -= width
   }
 
+  private setTime(newState: Partial<BitmapText> = {}) {
+    if (!this.time) {
+      this.time = new BitmapText('', {
+        fontName: 'Desyrel',
+        fontSize: 26,
+        align: 'left'
+      })
+      this.time.x = 0
+      this.time.y = 0
+      this.addChild(this.time)
+    }
+
+    Object.assign(this.time, newState)
+  }
+
   private ticker(): void {
     this.postition += 10
     this.setParallaxScroller(this.background, this.postition * 0.6)
     this.setParallaxScroller(this.foreground)
+    this.setTime({
+      text: dayjs().format('HH:mm:ss')
+    })
   }
 
   private get scaleValue(): number {

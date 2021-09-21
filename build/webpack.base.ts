@@ -1,17 +1,17 @@
 import { Configuration, ContextReplacementPlugin, DefinePlugin } from 'webpack'
 import { VueLoaderPlugin } from 'vue-loader'
-import { transpileDependencies } from './config/babel.config'
-import SpritesmithPlugin from './config/sprites.config'
 import { babelExclude, createCssLoader } from './lib/util/loader'
 import { progressBarFormatter } from './lib/util/log'
 import { resolve } from 'path'
+import { transpileDependencies } from './config/babel.config'
+import CaseSensitivePathsWebpackPlugin from 'case-sensitive-paths-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ESLintWebpackPlugin from 'eslint-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
+import SpritesmithPlugin from './config/sprites.config'
 import StylelintWebpackPlugin from 'stylelint-webpack-plugin'
-import CaseSensitivePathsWebpackPlugin from 'case-sensitive-paths-webpack-plugin'
 import fs from 'fs'
 
 const config: Configuration = {
@@ -85,12 +85,26 @@ const config: Configuration = {
           }
         }
       },
+      // 处理精灵图位置描述资源
       {
         test: /\.sprites\.(json|xml)(\?.*)?$/,
         type: 'javascript/auto',
         use: [
           {
             loader: 'sprites-loader',
+            options: {
+              esModule: false
+            }
+          }
+        ]
+      },
+      // 处理骨骼资源
+      {
+        test: /\.spine\.json(\?.*)?$/,
+        type: 'javascript/auto',
+        use: [
+          {
+            loader: 'spine-loader',
             options: {
               esModule: false
             }

@@ -1,5 +1,6 @@
 import '@/styles/index.scss'
 import 'normalize.css'
+import 'pixi-spine'
 import { Application, utils } from 'pixi.js'
 import { Events, ScreenState } from './const'
 import { apps, emitter, resolution } from '@/context'
@@ -92,6 +93,7 @@ const init = () => {
   }, 200)
 }
 loader.load()
-emitter.once(Events.LOAD_COMPLETE, () => {
+emitter.once(Events.LOAD_COMPLETE, (pixiResources) => {
+  console.log(pixiResources)
   init()
 })

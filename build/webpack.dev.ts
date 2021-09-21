@@ -5,8 +5,8 @@ import { getServerUrls } from './lib/util/log'
 import { merge } from 'webpack-merge'
 import FriendlyErrorsWebpackPlugin from '@soda/friendly-errors-webpack-plugin'
 import baseWebpackConfig from './webpack.base'
-import proxy from './config/proxy.config'
 import openInEditor from 'launch-editor-middleware'
+import proxy from './config/proxy.config'
 interface DevServerConfiguration extends Configuration {
   devServer?: WebpackOptionsNormalized['devServer']
 }
@@ -31,6 +31,7 @@ const config = async (): Promise<DevServerConfiguration> => {
       compress: true, // 为每个静态文件开启 gzip compression
       useLocalIp: true,
       quiet: true,
+      writeToDisk: true,
       historyApiFallback: {
         rewrites: [{ from: /./, to: '/index.html' }]
       },
