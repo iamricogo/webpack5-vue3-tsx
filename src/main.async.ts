@@ -1,7 +1,7 @@
 import '@/styles/index.scss'
 import 'normalize.css'
 import 'pixi-spine'
-import { Application, utils } from 'pixi.js'
+import { Application } from 'pixi.js'
 import { Events, ScreenState } from './const'
 import { apps, emitter, resolution } from '@/context'
 import { config } from '@/context/Resolution'
@@ -27,12 +27,6 @@ const init = () => {
   const initPixi = () => {
     const options = {
       ...config.size
-      // ...(utils.isMobile.any
-      //   ? {
-      //       resolution: window.devicePixelRatio || 1,
-      //       autoResize: true
-      //     }
-      //   : {})
     }
     const app = new Application(options)
     ;(document.querySelector('#app') as HTMLElement).appendChild(app.view)
