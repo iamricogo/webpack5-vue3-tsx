@@ -8,6 +8,14 @@
                 "h": 179
             }
         },
+        "logo.png": {
+            "frame": {
+                "x": 0,
+                "y": 821,
+                "w": 200,
+                "h": 200
+            }
+        },
         "bgtile.jpg": {
             "frame": {
                 "x": 0,
@@ -20,11 +28,11 @@
     "meta": {
         "app": "spritesheet-templates",
         "version": "10.5.2",
-        "image": "main.sprites.main.755fa98b837cf3a92983376a226d8eeb.png",
+        "image": "main.e6ede0e4500ce45cfc2a.png",
         "scale": 1,
         "size": {
             "w": 1286,
-            "h": 820
+            "h": 1021
         }
     }
 }
