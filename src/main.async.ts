@@ -26,13 +26,13 @@ const init = () => {
 
   const initPixi = () => {
     const options = {
-      ...config.size,
-      ...(utils.isMobile.any
-        ? {
-            resolution: window.devicePixelRatio || 1,
-            autoResize: true
-          }
-        : {})
+      ...config.size
+      // ...(utils.isMobile.any
+      //   ? {
+      //       resolution: window.devicePixelRatio || 1,
+      //       autoResize: true
+      //     }
+      //   : {})
     }
     const app = new Application(options)
     ;(document.querySelector('#app') as HTMLElement).appendChild(app.view)
