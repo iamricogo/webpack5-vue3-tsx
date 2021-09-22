@@ -93,7 +93,9 @@ const init = () => {
   }, 200)
 }
 loader.load()
-emitter.once(Events.LOAD_COMPLETE, (pixiResources) => {
+emitter.once(Events.LOAD_COMPLETE, (pixiResources, resources) => {
+  console.log(resources)
   console.log(pixiResources)
+
   init()
 })

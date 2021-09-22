@@ -59,3 +59,30 @@ export const numberFormat = (
       dollars.replace(groups, '$1' + separator) + (cents ? decimal + cents : '')
     )
 }
+
+export const pathFormat = (path: string, base?: string): string => {
+  const isDir = (url: string): boolean => /\[\/]$/.test(url) //以'/'或者'\'结尾就是目录
+  const isAbsolute = (url: string): boolean => /^[\\/]/.test(url) //以'/'或者'\'结尾开头
+  const isRelative = (url: string): boolean =>
+    !isAbsolute(url) && /(\.)+[\\/]/.test(url)
+  //绝对路径直接返回path
+  if (isAbsolute(path)) {
+    return path
+  }
+
+  if (base) {
+    const basePathArr = base.split('/')
+    //不是目录向上跳一级别
+    if (!isDir(base)) {
+      basePathArr.pop()
+    }
+
+    base = (basePathArr.join('/') + '/').replace(/[\\/]+$/, '/')
+  } else {
+    base = ''
+  }
+
+  path = isRelative(path) ? path : `./${path}`
+
+  return base + path
+}

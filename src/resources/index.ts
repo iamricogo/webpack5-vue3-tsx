@@ -1,4 +1,5 @@
 import Loading, { pixiLoader } from '@/loader/loading'
+
 export type IResources = Record<string, Record<string, string | string[]>>
 const resources: IResources = {
   test: require('@/assets/images/sprites/main/_spritesmith/main.png'),
@@ -10,6 +11,7 @@ const resources: IResources = {
     boy: require('@/assets/images/spines/boy/spineboy-pro.spine.json')
   }
 }
+
 const loader = new Loading()
 const Resources = pixiLoader.resources
 export { loader, Resources }

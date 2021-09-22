@@ -56,7 +56,7 @@ export default class Loading {
 
     pixiLoader
       .load(() => {
-        emitter.emit(Events.LOAD_COMPLETE, pixiLoader.resources)
+        emitter.emit(Events.LOAD_COMPLETE, pixiLoader.resources, res)
       })
       .onProgress.add(() =>
         emitter.emit(Events.LOAD_PROGRESS, pixiLoader.progress)
