@@ -75,7 +75,7 @@ const config: Configuration = {
       },
       // 处理其它资源
       {
-        test: /\.(woff2?|eot|ttf|otf|png|svg|jpg|gif|cur|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        test: /\.(woff2?|eot|ttf|otf|png|svg|jpe?g|gif|cur|mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
         type: 'asset',
         parser: {
           dataUrlCondition: (source, { filename }) => {
