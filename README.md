@@ -6,6 +6,16 @@
 
 pixi 游戏引擎生态中资源加载相关开发了自定义 webpack loader
 
+## 在线预览
+
+- 通过 [vercel](https://vercel.com/) 部署：
+
+  [在线预览](https://webpack5-vue3-tsx.vercel.app/)
+
+- 通过 [github actions](https://github.com/features/actions) 部署到 [github.io](https://pages.github.com/)：
+
+  [在线预览](https://iamricogo.github.io/webpack5-vue3-tsx/)
+
 ## commit 规范
 
 [husky](https://typicode.github.io/husky/#/) 是 git 一些行为的钩子依赖，高版本 首次需要显式 执行 npx husky install 以 开启 git 钩子
