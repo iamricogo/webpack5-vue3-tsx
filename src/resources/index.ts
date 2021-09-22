@@ -5,7 +5,7 @@ const resources: IResources = {
   test: require('@/assets/images/sprites/main/_spritesmith/main.png'),
   sprites: {
     main: require('@/assets/images/sprites/main/_spritesmith/main.sprites.json'),
-    desyrel: require('@/assets/images/sprites/desyrel/desyrel.sprites.html')
+    desyrel: require('@/assets/images/sprites/desyrel/desyrel.sprites.text')
   },
   spines: {
     boy: require('@/assets/images/spines/boy/spineboy-pro.spine.json')
