@@ -134,6 +134,9 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
   import LangSelect from '@/components/langselect'
 
   export default {
+    components: {
+      LangSelect
+    },
     render() {
       return <lang-select />
     }
