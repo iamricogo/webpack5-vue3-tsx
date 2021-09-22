@@ -1,6 +1,6 @@
 ## 项目介绍
 
-本外卖官网项目用到的技术栈 tsnode + webpack5 + vue3 生态 + typescriptX + pixi.js 游戏引擎 + sass
+本项目用到的技术栈 tsnode + webpack5 + vue3 生态 + typescriptX + pixi.js 游戏引擎 + sass
 
 项目搭建未用 vue-cli 等主流脚手架，用 webpack 原生手撸。css 预编译 sass 语法采用 dart sass,非 node sass, dart sass 已直接更名为 sass
 
