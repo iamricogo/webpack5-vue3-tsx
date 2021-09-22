@@ -13,10 +13,15 @@
       height: $pointR;
       border-radius: 50%;
     }
-    img {
-      width: $imgSize;
-      height: $imgSize;
+    // img {
+    //   width: $imgSize;
+    //   height: $imgSize;
+    //   margin-top: $top;
+    // }
+    .logo {
+      display: inline-block;
       margin-top: $top;
+      @include sprite-size($sprite-main-logo, $imgSize, $imgSize);
     }
   }
 

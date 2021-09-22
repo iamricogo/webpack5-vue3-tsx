@@ -7,7 +7,6 @@ import { useStore } from '@/store/provide'
 import Animation, { Ease } from '@/utils/Animation'
 import Button from '@/components/Button'
 import Service from './service'
-import logo from '@/assets/images/logo.png'
 import style from './style.module.scss'
 
 export default defineComponent({
@@ -104,12 +103,11 @@ export default defineComponent({
               }}
             ></span>
           ))}
-          <img
+          <span
+            class={style.logo}
             style={{
               transform: `translate3d(${position.x}px,${position.y}px,0)`
             }}
-            alt="Vue logo"
-            src={logo}
             onClick={onSubmit}
           />
           <Button label={numberFormat(state.count)} onTap={onButtonTap} />

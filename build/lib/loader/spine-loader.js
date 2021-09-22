@@ -4,7 +4,8 @@ const spritesLoader = require('./sprites-loader')
 module.exports = async function (content, options) {
   options = Object.assign(
     {
-      name: 'assets/[name].[contenthash].[ext]'
+      //默认同步webpack5 hash算法默认规则
+      name: 'assets/[name].[md4:contenthash:hex:20].[ext]'
     },
     loaderUtils.getOptions(this) || {},
     options
