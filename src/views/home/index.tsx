@@ -14,6 +14,7 @@ export default defineComponent({
   setup: () => {
     const {
       state,
+      getters,
       mutations: { updateState }
     } = useStore()
     const { t } = useI18n()
@@ -39,7 +40,7 @@ export default defineComponent({
       }
     }, 300)
 
-    let logoAnimation: Animation | null = null
+    let logoAnimation!: Animation
     const startPointData = {
       x: 0,
       y: 0,
@@ -48,7 +49,7 @@ export default defineComponent({
     const points = ref([startPointData])
     const position = reactive({ x: 0, y: 0 })
 
-    const circleMove = (progress: number): void => {
+    const logoMove = (progress: number): void => {
       const r = 100
       const times = 1
 
@@ -73,15 +74,15 @@ export default defineComponent({
       ('00000' + ((Math.random() * 0x1000000) << 0).toString(16)).substr(-6)
 
     const onButtonTap = debounce(() => {
-      if (logoAnimation && logoAnimation.isAnimating) return
+      if (logoAnimation?.isAnimating) return
       const start = state.count,
         duration = 1000 * 10
       logoAnimation = new Animation({ count: start })
         .to({ count: state.count + 1000 * 10 }, duration, Ease.bounce)
         .on('update', ({ count }, progress) => {
           updateState({ count })
-
-          circleMove(progress)
+          console.log(getters.doubleCount)
+          logoMove(progress)
         })
         .on('complete', () => {
           console.log('complete')

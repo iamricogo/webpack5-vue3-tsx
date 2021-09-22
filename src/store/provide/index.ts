@@ -8,6 +8,9 @@ export const key: InjectionKey<Store> = Symbol()
 
 export interface Store {
   state: State
+  getters: {
+    doubleCount: number
+  }
   mutations: {
     updateState: (newState: Partial<State>) => void
   }
@@ -22,6 +25,14 @@ const createStore = (): void => {
       updateState: (newState: Partial<State> = {}) => {
         console.warn(newState)
         merge(store.state, newState)
+      }
+    },
+    get getters() {
+      const state = store.state
+      return {
+        get doubleCount(): number {
+          return state.count * 2
+        }
       }
     }
   })
