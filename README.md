@@ -144,6 +144,9 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
 
       nodejs 文件系统根据上一步的真实的资源系统路径，读取文件内容，根据 module.rules 中的正则规则来调用指定的 webpack loader 集合
 
+      webpack5 对于图片音视频等原先需要用url-loader/file-loader 处理的资源 内置了 [Asset Modules](https://webpack.js.org/guides/asset-modules/#root) 进行处理
+      
+
     #### 资源加载优化方案
 
     - ##### 主入口的优化
@@ -283,21 +286,21 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
         })
         ```
 
-        因 webpack.config 中定义了满足/\.sprites\.(json|(ht|x)ml)(\?.\*)?$/特征的资源的处理模式，所以上面的 json 文件返回效果和常规的会有差异
-
+        因 webpack.config 中定义了满足/\.sprites\.(text|json|(ht|x)ml)(\?.\*)?$/特征的资源的处理模式，所以上面的 json 文件返回效果和常规的会有差异
+        
         ```ts
 
         {
-        test: /\.sprites\.(json|(ht|x)ml)(\?.*)?$/,
-        type: 'javascript/auto',
-        use: [
-          {
-            loader: 'sprites-loader',
-            options: {
-              esModule: false
+          test: /\.sprites\.(text|json|(ht|x)ml)(\?.*)?$/,
+          type: 'javascript/auto',
+          use: [
+            {
+              loader: 'sprites-loader',
+              options: {
+                esModule: false
+              }
             }
-          }
-        ]
+          ]
         },
         ```
 
@@ -310,7 +313,7 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
       - require / import 函数触发正则匹配的资源
 
         ```ts
-        require('@/assets/images/sprites/main/_spritesmith/main.sprites.json')
+        const spritesJson = require('@/assets/images/sprites/main/_spritesmith/main.sprites.json')
         //import spritesJson from '@/assets/images/sprites/main/_spritesmith/main.sprites.json'
         ```
 
