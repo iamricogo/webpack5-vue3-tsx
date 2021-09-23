@@ -74,8 +74,9 @@ feat: 添加xxx页面
 
 # 项目脚本
 
-本项目中维护的 yarn.lock 非 npm 的 package-lock.json 文件，
+本项目中维护的 yarn.lock 非 npm 的 package-lock.json 文件
 而 lock 文件对依赖的小版本固定起到关键作用，建议团队统一包管理工具，运维部署时也使用对应的包管理器
+本项目默认 yarn 做包管理工具
 
 ## 依赖安装
 
