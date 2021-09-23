@@ -353,19 +353,193 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
         }
         ```
 
-- ## 熟悉 typescript 语法。
+- ## typescript & vue3 ts 生态
 
-  [vue3 typescript 官网文档](https://v3.cn.vuejs.org/guide/typescript-support.html#npm-%E5%8C%85%E4%B8%AD%E7%9A%84%E5%AE%98%E6%96%B9%E5%A3%B0%E6%98%8E)
+  - ### [vue3 typescript 官网文档](https://v3.cn.vuejs.org/guide/typescript-support.html#npm-%E5%8C%85%E4%B8%AD%E7%9A%84%E5%AE%98%E6%96%B9%E5%A3%B0%E6%98%8E)
 
-- ## 熟悉 tsx 语法 & vue3 生态下的 template 语法糖与 tsx 的等价转化。
+  - ### [vue-types vue props 类型定义校验工具，vue3 启用 ts 时建议使用](https://www.npmjs.com/package/vue-types)
 
-  [vue3 jsx 官网文档](https://v3.cn.vuejs.org/guide/render-function.html#jsx)
+  - ### 状态管理方案
 
-  [@vue/babel-plugin-jsx,不用显式安装，已集成到@vue/babel-preset-app，可参内部 demo 语法](https://github.com/vuejs/jsx-next)
+    #### vuex
 
-  [vue-types vue props 类型定义校验工具，vue3 启用 ts 时建议使用](https://www.npmjs.com/package/vue-types)
+    [vuex ts](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html#typescript-support)
 
-- ## tsx 和 jsx 的差异，
+    官方推荐方案，但在 ts 生态下，通过 commit ,dispatch 等调用 mutations 和 actions 时 无法做类型校验
+
+    [vuex-module-decorators](https://www.npmjs.com/package/vuex-module-decorators)
+
+    三方库，暂未支持 vue3，vuex 变成了 Class 配合修饰器的写法
+
+    #### 通过 provide/inject api 自行管理 （推荐）
+
+    - 以 hooks 方式定义状态管理
+
+      ```ts
+      //@/store/hooks/index.ts
+      import { inject, reactive } from 'vue'
+      import { merge } from 'lodash'
+      interface State {
+        count: number
+      }
+
+      export const key = Symbol()
+
+      export interface Store {
+        state: State
+        getters: {
+          doubleCount: number
+        }
+        mutations: {
+          updateState: (newState: Partial<State>) => void
+        }
+      }
+
+      export const useCreateStore = (): { store: Store; key: typeof key } => {
+        const store = reactive<Store>({
+          state: {
+            count: 0
+          },
+          mutations: {
+            updateState: (newState: Partial<State> = {}) => {
+              console.warn(newState)
+              merge(store.state, newState)
+            }
+          },
+          get getters() {
+            const state = store.state
+            return {
+              get doubleCount(): number {
+                return state.count * 2
+              }
+            }
+          }
+        })
+
+        return {
+          store,
+          key
+        }
+      }
+
+      export const useStore = (): Store =>
+        inject<Store>(key) as NonNullable<Store>
+      ```
+
+    - 调用 inject 在根组件进行注入
+
+      方案一：直接通过 provide 注入 ，使用 readonly 包裹 store 避免修改
+
+      ```tsx
+      //@/App.tsx
+      import { defineComponent, provide, readonly } from 'vue'
+      import { useCreateStore } from '@/store/hooks'
+      import Adapter from '@/components/Adapter'
+      import Provider from '@/components/Provider'
+      export default defineComponent({
+        name: 'App',
+        setup: () => {
+          const { store, key } = useCreateStore()
+          provide(props.storeKey, readonly(props.store))
+          return () => <router-view />
+        }
+      })
+      ```
+
+      方案二：调用抽象组件 Provider 在根组件进行注入（推荐）
+
+      ```tsx
+      //@/App.tsx
+      import { defineComponent } from 'vue'
+      import { useCreateStore } from '@/store/hooks'
+      import Provider from '@/components/Provider'
+      export default defineComponent({
+        name: 'App',
+        setup: () => {
+          const { store, key } = useCreateStore()
+          return () => (
+            <Provider store={store} storeKey={key}>
+              <router-view />
+            </Provider>
+          )
+        }
+      })
+      ```
+
+      通过 Provider 组件，可以在 template 语法中任意节点处注入一些公用的状态
+
+      ```tsx
+      //@/components/Provider
+      import { defineComponent, provide, readonly } from 'vue'
+      import AppTypes, { oneOfType } from '@/vue-types'
+      const iProviderProps = {
+        storeKey: oneOfType([String, Number, Symbol]).isRequired,
+        store: AppTypes.object.isRequired
+      }
+
+      export default defineComponent({
+        name: 'Provider',
+        props: iProviderProps,
+        setup: (props, { slots }) => {
+          provide(props.storeKey, readonly(props.store))
+          return () => slots?.default?.()
+        }
+      })
+      ```
+
+    - 业务组件中使用状态及改变状态
+
+    ```tsx
+    import { debounce } from 'lodash'
+    import { defineComponent, reactive, ref } from 'vue'
+    import { numberFormat } from '@/utils/FormatterUtils'
+    import { useStore } from '@/store/hooks'
+    import Animation, { Ease } from '@/utils/Animation'
+    import Button from '@/components/Button'
+
+    export default defineComponent({
+      name: 'Home',
+      setup: () => {
+        const {
+          state,
+          getters,
+          mutations: { updateState }
+        } = useStore()
+
+        let logoAnimation!: Animation
+        const onButtonTap = debounce(() => {
+          if (logoAnimation?.isAnimating) return
+          const start = state.count,
+            duration = 1000 * 10
+          logoAnimation = new Animation({ count: start })
+            .to({ count: state.count + 1000 * 10 }, duration, Ease.bounce)
+            .on('update', ({ count }, progress) => {
+              updateState({ count })
+              console.log(getters.doubleCount)
+            })
+            .on('complete', () => {
+              console.log('complete')
+            })
+        }, 300)
+
+        return () => (
+          <div class={[style.home]}>
+            <div>
+              <Button label={numberFormat(state.count)} onTap={onButtonTap} />
+            </div>
+          </div>
+        )
+      }
+    })
+    ```
+
+- ## vue3 tsx 生态
+
+  - ### [vue3 jsx 官网文档](https://v3.cn.vuejs.org/guide/render-function.html#jsx)
+
+  - ### [@vue/babel-plugin-jsx,不用显式安装，已集成到@vue/babel-preset-app，可参内部 demo 语法](https://github.com/vuejs/jsx-next)
+
+- ## tsx 和 jsx 的差异
 
   tsx 的 render 函数中引入组件和 jsx 还是有一定的差异。jsx 中原本只需要 import 后 直接 在 render 函数里面使用即可，在 tsx 中如果用大写开头当变量，render 函数中会进行（props，events，slots）类型校验
 
@@ -404,7 +578,7 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
   }
   ```
 
-- ## 需对 sass 语法熟悉 及 css 冲突另一种解决方案 css modules 方案熟悉
+- ## sass 语法 及 css 冲突另一种解决方案 css modules 方案
 
   ```scss
   //./style.module.scss
