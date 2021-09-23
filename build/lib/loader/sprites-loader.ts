@@ -28,8 +28,7 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
 
         const imgContentName = loaderUtils.interpolateName(
           this,
-          path.dirname(options.name) +
-            `/${/\[name\]/.test(options.name) ? name : ''}${hash}${ext}`,
+          path.dirname(options.name) + `/${name}.${hash}${ext}`,
           {
             content: imgContent
           }

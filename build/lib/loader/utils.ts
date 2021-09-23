@@ -62,7 +62,6 @@ const hashPlacehoderUtils = {
   completion: (loaderContext: LoaderContext<unknown>, path: string): string => {
     const { hashDigest, hashDigestLength, hashFunction } =
       loaderContext?._compilation?.outputOptions || {}
-
     return path.replace(
       hashPlacehoderUtils.match,
       (all, hashType, digestType, maxLength) =>
