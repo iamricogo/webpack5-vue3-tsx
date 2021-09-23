@@ -1,7 +1,7 @@
 import { I18n, createI18n } from 'vue-i18n'
 import localeEn from './locales/en-US'
 import localeZh from './locales/zh-CN'
-import store from '@/store'
+import store from '@/store/vuex'
 
 type MessageSchema = typeof localeEn
 

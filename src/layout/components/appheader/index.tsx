@@ -1,7 +1,7 @@
 import { Language } from '@/lang'
 import { defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore } from '@/store'
+import { useStore } from '@/store/vuex'
 import router from '@/router'
 import style from './style.module.scss'
 export default defineComponent({

@@ -1,28 +1,17 @@
 import { defineComponent } from 'vue'
-import { useStore } from '@/store'
-import createStore from '@/store/provide'
+import { useCreateStore } from '@/store/hooks'
+import Adapter from '@/components/Adapter'
+import Provider from '@/components/Provider'
 export default defineComponent({
   name: 'App',
   setup: () => {
-    createStore()
-    const {
-      state: {
-        app: { adapter }
-      }
-    } = useStore()
+    const { store, key } = useCreateStore()
     return () => (
-      <div
-        id="views"
-        style={{
-          //width: `${100/$store.state.scale}%`,
-          //height: `${100/$store.state.scale}%`,
-          width: `${adapter.width}px`,
-          height: `${adapter.height}px`,
-          transform: `translate(-50%,-50%) scale(${adapter.scale})`
-        }}
-      >
-        <router-view />
-      </div>
+      <Provider store={store} storeKey={key}>
+        <Adapter>
+          <router-view />
+        </Adapter>
+      </Provider>
     )
   }
 })

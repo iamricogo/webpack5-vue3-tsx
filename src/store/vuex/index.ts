@@ -1,4 +1,3 @@
-import { InjectionKey } from 'vue'
 import { Store, useStore as baseUseStore, createStore } from 'vuex'
 import app, { IAppState } from './modules/app'
 import createPersistedState from 'vuex-persistedstate'
@@ -8,7 +7,7 @@ export interface IRootState {
 }
 
 // 定义 injection key
-export const key: InjectionKey<Store<IRootState>> = Symbol()
+export const key = Symbol()
 
 const vuexLocal = createPersistedState({
   reducer({ app: { language } }: IRootState): {
