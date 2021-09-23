@@ -5,20 +5,10 @@ import fileLoader from 'file-loader'
 import utils from './utils'
 
 const spritesLoader: LoaderDefinitionFunction = async function (content) {
-  const defaultHash = `[md4:contenthash:hex:20]`
-  const options = Object.assign(
-    {
-      //默认同步webpack5 hash算法默认规则
-      name: `assets/[name].${defaultHash}.[ext]`
-    },
-    loaderUtils.getOptions(this)
-  )
+  const options = utils.optionsFormat(this)
+  //应用格式化后的options
   utils.updateOptions(this, options)
-
-  const imgReg = /(\w|-|~|@|\/)+\.(png|jpe?g)/g
-  const hashReg =
-    /\[(?:([^:\]]+):)?(?:hash|contenthash)(?::([a-z]+\d*))?(?::(\d+))?\]/gi
-
+  const imgReg = /(\w|-|~|@|\/)+\.(png|jpe?g)/gi
   const newContent = await utils.replaceAsync(
     content,
     imgReg,
@@ -30,19 +20,21 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
         const ext = path.extname(match)
         const name = path.basename(match, ext)
         const imgContent = await utils.readFile(realPath)
-        const hash = options.name.match(hashReg)?.[0] || defaultHash
-        const imgContentName =
+        const hash = utils.hashPlacehoderUtils.completion(
+          this,
+          options.name.match(utils.hashPlacehoderUtils.match)?.[0] ||
+            '[contenthash]'
+        )
+
+        const imgContentName = loaderUtils.interpolateName(
+          this,
           path.dirname(options.name) +
-          `/${name}.${hash}${ext}`.replace(
-            /\[(?:([^:\]]+):)?(?:hash|contenthash)(?::([a-z]+\d*))?(?::(\d+))?\]/gi,
-            (all, hashType, digestType, maxLength) =>
-              loaderUtils.getHashDigest(
-                imgContent,
-                hashType,
-                digestType,
-                parseInt(maxLength, 10)
-              )
-          )
+            `/${/\[name\]/.test(options.name) ? name : ''}${hash}${ext}`,
+          {
+            content: imgContent
+          }
+        )
+
         //定义为输出的图片的配置
         utils.updateOptions(this, {
           name: imgContentName

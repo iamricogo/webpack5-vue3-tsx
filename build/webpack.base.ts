@@ -19,7 +19,7 @@ const config: Configuration = {
   target: 'web',
   output: {
     filename: 'assets/[name].bundle.js',
-    assetModuleFilename: 'assets/[name].[contenthash][ext]',
+    assetModuleFilename: 'assets/[name].[contenthash][ext][query]',
     path: resolve(__dirname, '../dist')
   },
   module: {
