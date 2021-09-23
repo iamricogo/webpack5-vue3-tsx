@@ -31,7 +31,7 @@ const config = async (): Promise<DevServerConfiguration> => {
       compress: true, // 为每个静态文件开启 gzip compression
       useLocalIp: true,
       quiet: true,
-      // writeToDisk: true,
+      writeToDisk: true,
       historyApiFallback: {
         rewrites: [{ from: /./, to: '/index.html' }]
       },

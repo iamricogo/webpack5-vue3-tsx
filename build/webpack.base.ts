@@ -91,7 +91,7 @@ const config: Configuration = {
         type: 'javascript/auto',
         use: [
           {
-            loader: 'sprites-loader',
+            loader: 'sprites-loader.ts',
             options: {
               esModule: false
             }
@@ -104,7 +104,7 @@ const config: Configuration = {
         type: 'javascript/auto',
         use: [
           {
-            loader: 'spine-loader',
+            loader: 'spine-loader.ts',
             options: {
               esModule: false
             }
