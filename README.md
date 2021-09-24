@@ -89,7 +89,7 @@ npm i # npm 做包管理
 
 ```bash
 yarn start
-npm start 
+npm start
 ```
 
 ## production 模式
@@ -319,21 +319,20 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
 
         需求分析：
 
-        读取被require的资源文本内容 =>
+        读取被 require 的资源文本内容 =>
 
         正则匹配文本内容中的子依赖资源路径 =>
 
-        nodejs根据匹配的路径读取子依赖文件内容 =>
+        nodejs 根据匹配的路径读取子依赖文件内容 =>
 
-        子依赖文件内容传入file-loader emit 到 dist 目录 并拿到输出路径 =>
+        子依赖文件内容传入 file-loader emit 到 dist 目录 并拿到输出路径 =>
 
         替换文本内容的子依赖路径为上一步输出的路径 =>
 
-        新的文本内容传入 file-loader emit 到 dist 目录 
-        
+        新的文本内容传入 file-loader emit 到 dist 目录
 
-        代码实现：（代码可能较旧，具体以build/lib/loader/sprites-loader.ts为准）
-        
+        代码实现：（代码可能较旧，具体以 build/lib/loader/sprites-loader.ts 为准）
+
         ```js
         const loaderUtils = require('loader-utils')
         const path = require('path')
@@ -371,8 +370,6 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
         }
         ```
 
-
-
 - ## typescript & vue3 ts 生态
 
   - ### [vue3 typescript 官网文档](https://v3.cn.vuejs.org/guide/typescript-support.html#npm-%E5%8C%85%E4%B8%AD%E7%9A%84%E5%AE%98%E6%96%B9%E5%A3%B0%E6%98%8E)
@@ -393,12 +390,15 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
 
     #### 通过 provide/inject api 自行管理 （推荐）
 
-    - 以 hooks 方式定义状态管理
+    - 以 hooks 方式定义状态管理 (支持持久化)
 
       ```ts
       //@/store/hooks/index.ts
-      import { inject, reactive } from 'vue'
+      import { inject, reactive, watch } from 'vue'
       import { merge } from 'lodash'
+      //状态持久化实现类
+      import PersistedState from '@/utils/PersidtedState'
+      
       interface State {
         count: number
       }
@@ -435,6 +435,18 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
             }
           }
         })
+
+        //添加持久化功能添加以下代码片段即可
+        /**状态持久化-start*/
+        const persidtedState = new PersistedState<State>({
+          state: store.state,
+          reducer: ({ count }) => ({ count })
+        })
+
+        watch(store.state, () => {
+          persidtedState.update()
+        })
+        /**状态持久化-end*/
 
         return {
           store,
