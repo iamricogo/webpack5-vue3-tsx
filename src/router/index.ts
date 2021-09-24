@@ -24,7 +24,7 @@ const router = createRouter({
         {
           name: 'others',
           path: 'others',
-          component: () => import('@/views/others'),
+          component: () => import('@/views/others/index.vue'),
           meta: {
             title: 'others'
           }

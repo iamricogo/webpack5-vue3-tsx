@@ -520,6 +520,8 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
       ```
 
     - 业务组件中使用状态及改变状态
+      
+      tsx 组件调用
 
     ```tsx
     import { debounce } from 'lodash'
@@ -563,6 +565,38 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
         )
       }
     })
+    ```
+
+    .vue 单模板组件中调用 store
+
+    ```html
+    <template>
+      <div>
+        <tag>others</tag>
+        <p>{{ store.state.count }}</p>
+        <button @click="reset">归零</button>
+      </div>
+    </template>
+    <script lang="ts">
+      import { Tag } from 'ant-design-vue'
+      import { defineComponent } from 'vue'
+      import { useStore } from '@/store/hooks'
+      export default defineComponent({
+        name: 'Others',
+        components: {
+          Tag
+        },
+        setup: () => {
+          const store = useStore()
+          return { store }
+        },
+        methods: {
+          reset() {
+            this.store.mutations.updateState({ count: 0 })
+          }
+        }
+      })
+    </script>
     ```
 
 - ## vue3 tsx 生态
