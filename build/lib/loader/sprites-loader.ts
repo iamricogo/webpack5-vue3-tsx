@@ -8,10 +8,11 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
   const options = utils.optionsFormat(this)
   //应用格式化后的options
   utils.updateOptions(this, options)
-  const imgReg = /(\w|-|~|@|\/)+\.(png|jpe?g)/gi
+  //匹配资源的正则
+  const urlReg = /[\w-~@/.]+\.[a-zA-Z]\w+/gi
   const newContent = await utils.replaceAsync(
     content,
-    imgReg,
+    urlReg,
     async (match) => {
       const request = loaderUtils.urlToRequest(match)
       const realPath = await utils.resolve(this, request)
@@ -19,7 +20,7 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
         this.addDependency(realPath)
         const ext = path.extname(match)
         const name = path.basename(match, ext)
-        const imgContent = await utils.readFile(realPath)
+        const urlFileContent = await utils.readFile(realPath)
         const hash = utils.hashPlacehoderUtils.completion(
           this,
           options.name.match(utils.hashPlacehoderUtils.match)?.[0] ||
@@ -28,9 +29,15 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
 
         const imgContentName = loaderUtils.interpolateName(
           this,
-          path.dirname(options.name) + `/${name}.${hash}${ext}`,
+          /**有hash和ext占位符号就只替换他们，否则用自建规则 */
+          utils.hashPlacehoderUtils.match.test(options.name) &&
+            /\.\[ext\]/gi.test(options.name)
+            ? options.name
+                .replace(/\[name\]/gi, name)
+                .replace(/\.\[ext\]/gi, ext)
+            : path.dirname(options.name) + `/${name}.${hash}${ext}`,
           {
-            content: imgContent
+            content: urlFileContent
           }
         )
 
@@ -38,8 +45,8 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
         utils.updateOptions(this, {
           name: imgContentName
         })
-        //调用fileLoader进行匹配的图片资源输出
-        fileLoader.call(this, imgContent)
+        //调用fileLoader进行匹配的资源输出
+        fileLoader.call(this, urlFileContent)
 
         return path.posix.basename(imgContentName)
       }

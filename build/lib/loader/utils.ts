@@ -91,7 +91,7 @@ const optionsFormat = (loaderContext: LoaderContext<unknown>) => {
         typeof assetModuleFilename === 'string'
           ? assetModuleFilename
               .replace(/\[ext\]/gi, '.[ext]')
-              .replace(/\[chunkhash\]/gi, 'contenthash')
+              .replace(/\[(chunkhash|fullhash)\]/gi, '[contenthash]')
           : `assets/[name].[contenthash].[ext][query]`
     },
     loaderUtils.getOptions(loaderContext)
