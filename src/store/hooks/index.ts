@@ -1,5 +1,6 @@
-import { inject, reactive } from 'vue'
+import { inject, reactive, watch } from 'vue'
 import { merge } from 'lodash'
+import PersistedState from '@/utils/PersidtedState'
 interface State {
   count: number
 }
@@ -35,6 +36,15 @@ export const useCreateStore = (): { store: Store; key: typeof key } => {
         }
       }
     }
+  })
+
+  const persidtedState = new PersistedState<State>({
+    state: store.state,
+    reducer: ({ count }) => ({ count })
+  })
+
+  watch(store.state, () => {
+    persidtedState.update()
   })
 
   return {
