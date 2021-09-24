@@ -317,6 +317,23 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
 
       - 进入 sprites-loader 函数
 
+        需求分析：
+
+        读取被require的资源文本内容 =>
+
+        正则匹配文本内容中的子依赖资源路径 =>
+
+        nodejs根据匹配的路径读取子依赖文件内容 =>
+
+        子依赖文件内容传入file-loader emit 到 dist 目录 并拿到输出路径 =>
+
+        替换文本内容的子依赖路径为上一步输出的路径 =>
+
+        新的文本内容传入 file-loader emit 到 dist 目录 
+        
+
+        代码实现：（代码可能较旧，具体以build/lib/loader/sprites-loader.ts为准）
+        
         ```js
         const loaderUtils = require('loader-utils')
         const path = require('path')
@@ -353,6 +370,8 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
           return utils.fileLoader(this, newContent, options)
         }
         ```
+
+
 
 - ## typescript & vue3 ts 生态
 
@@ -441,7 +460,7 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
         name: 'App',
         setup: () => {
           const { store, key } = useCreateStore()
-          provide(props.storeKey, readonly(props.store))
+          provide(key, readonly(store))
           return () => <router-view />
         }
       })
