@@ -13,7 +13,7 @@ export const plus = reduce((a: BigSource, b: BigSource): number =>
 )
 
 export const minus = reduce((a: BigSource, b: BigSource): number =>
-  new Big(a).plus(new Big(b)).toNumber()
+  new Big(a).minus(new Big(b)).toNumber()
 )
 
 export const div = reduce((a: BigSource, b: BigSource): number =>

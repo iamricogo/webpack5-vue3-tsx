@@ -396,11 +396,17 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
       //@/store/hooks/index.ts
       import { inject, reactive, watch } from 'vue'
       import { merge } from 'lodash'
-      //状态持久化实现类
       import PersistedState from '@/utils/PersistedState'
-
       interface State {
         count: number
+        deep: {
+          persisted: number
+          normal: number
+        }
+        deep2: {
+          persisted: number
+          normal: number
+        }
       }
 
       export const key = Symbol()
@@ -411,17 +417,25 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
           doubleCount: number
         }
         mutations: {
-          updateState: (newState: Partial<State>) => void
+          updateState: (newState: DeepPartial<State>) => void
         }
       }
 
       export const useCreateStore = (): { store: Store; key: typeof key } => {
-        const store = reactive<Store>({
-          state: {
-            count: 0
-          },
+        const store: Store = {
+          state: reactive<State>({
+            count: 0,
+            deep: {
+              persisted: 0,
+              normal: 0
+            },
+            deep2: {
+              persisted: 0,
+              normal: 0
+            }
+          }),
           mutations: {
-            updateState: (newState: Partial<State> = {}) => {
+            updateState: (newState: DeepPartial<State> = {}) => {
               console.warn(newState)
               merge(store.state, newState)
             }
@@ -434,19 +448,19 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
               }
             }
           }
-        })
+        }
 
-        //添加持久化功能添加以下代码片段即可
-        /**状态持久化-start*/
         const persistedState = new PersistedState<State>({
           state: store.state,
-          reducer: ({ count }) => ({ count })
+          reducer: ({ count, deep: { persisted } }) => ({
+            count,
+            deep: { persisted }
+          })
         })
 
         watch(store.state, () => {
           persistedState.update()
         })
-        /**状态持久化-end*/
 
         return {
           store,
@@ -520,7 +534,7 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
       ```
 
     - 业务组件中使用状态及改变状态
-      
+
       tsx 组件调用
 
     ```tsx
@@ -573,14 +587,19 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
     <template>
       <div>
         <tag>others</tag>
-        <p>{{ store.state.count }}</p>
-        <button @click="reset">归零</button>
+
+        <p>state.deep.persisted:{{ store.state.deep.persisted }}</p>
+        <p>state.deep.normal:{{ store.state.deep.normal }}</p>
+
+        <button @click="plus">+</button>
+        <button @click="minus">-</button>
       </div>
     </template>
     <script lang="ts">
       import { Tag } from 'ant-design-vue'
       import { defineComponent } from 'vue'
       import { useStore } from '@/store/hooks'
+
       export default defineComponent({
         name: 'Others',
         components: {
@@ -591,8 +610,25 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
           return { store }
         },
         methods: {
-          reset() {
-            this.store.mutations.updateState({ count: 0 })
+          plus() {
+            const {
+              state: {
+                deep: { persisted, normal }
+              }
+            } = this.store
+            this.store.mutations.updateState({
+              deep: { persisted: persisted + 1, normal: normal + 1 }
+            })
+          },
+          minus() {
+            const {
+              state: {
+                deep: { persisted, normal }
+              }
+            } = this.store
+            this.store.mutations.updateState({
+              deep: { persisted: persisted - 1, normal: normal - 1 }
+            })
           }
         }
       })

@@ -3,6 +3,14 @@ import { merge } from 'lodash'
 import PersistedState from '@/utils/PersistedState'
 interface State {
   count: number
+  deep: {
+    persisted: number
+    normal: number
+  }
+  deep2: {
+    persisted: number
+    normal: number
+  }
 }
 
 export const key = Symbol()
@@ -13,17 +21,25 @@ export interface Store {
     doubleCount: number
   }
   mutations: {
-    updateState: (newState: Partial<State>) => void
+    updateState: (newState: DeepPartial<State>) => void
   }
 }
 
 export const useCreateStore = (): { store: Store; key: typeof key } => {
-  const store = reactive<Store>({
-    state: {
-      count: 0
-    },
+  const store: Store = {
+    state: reactive<State>({
+      count: 0,
+      deep: {
+        persisted: 0,
+        normal: 0
+      },
+      deep2: {
+        persisted: 0,
+        normal: 0
+      }
+    }),
     mutations: {
-      updateState: (newState: Partial<State> = {}) => {
+      updateState: (newState: DeepPartial<State> = {}) => {
         console.warn(newState)
         merge(store.state, newState)
       }
@@ -36,11 +52,14 @@ export const useCreateStore = (): { store: Store; key: typeof key } => {
         }
       }
     }
-  })
+  }
 
   const persistedState = new PersistedState<State>({
     state: store.state,
-    reducer: ({ count }) => ({ count })
+    reducer: ({ count, deep: { persisted } }) => ({
+      count,
+      deep: { persisted }
+    })
   })
 
   watch(store.state, () => {

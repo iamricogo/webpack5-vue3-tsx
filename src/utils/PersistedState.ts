@@ -12,7 +12,7 @@ interface Options<State> {
   state: State
   key?: string
   storage?: Storage
-  reducer?: (state: State) => Partial<State>
+  reducer?: (state: State) => DeepPartial<State>
 }
 
 export default class PersistedState<State> {
@@ -44,7 +44,11 @@ export default class PersistedState<State> {
     return undefined
   }
 
-  private setState(key: string, state: Partial<State>, storage: Storage): void {
+  private setState(
+    key: string,
+    state: DeepPartial<State>,
+    storage: Storage
+  ): void {
     storage.setItem(key, JSON.stringify(state))
   }
 
