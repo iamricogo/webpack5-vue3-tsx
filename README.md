@@ -397,8 +397,8 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
       import { inject, reactive, watch } from 'vue'
       import { merge } from 'lodash'
       //状态持久化实现类
-      import PersistedState from '@/utils/PersidtedState'
-      
+      import PersistedState from '@/utils/PersistedState'
+
       interface State {
         count: number
       }
@@ -438,13 +438,13 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
 
         //添加持久化功能添加以下代码片段即可
         /**状态持久化-start*/
-        const persidtedState = new PersistedState<State>({
+        const persistedState = new PersistedState<State>({
           state: store.state,
           reducer: ({ count }) => ({ count })
         })
 
         watch(store.state, () => {
-          persidtedState.update()
+          persistedState.update()
         })
         /**状态持久化-end*/
 
