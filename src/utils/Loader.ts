@@ -79,10 +79,10 @@ export const loadSound = (url: string): Promise<HTMLAudioElement> => {
 
 export const loadImage = (
   url: string,
-  isBlob = false
+  toBlob = false
 ): Promise<HTMLImageElement | string> => {
   return new Promise((resolve, reject) => {
-    if (isBlob) {
+    if (toBlob) {
       const xhr = new XMLHttpRequest()
       xhr.open('GET', url, true)
       xhr.responseType = 'blob'
@@ -104,22 +104,5 @@ export const loadImage = (
 
       img.src = url
     }
-  })
-}
-
-export const loadImage2Blob = (url: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', url, true)
-    xhr.onload = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        const blob = URL.createObjectURL(this.response)
-        resolve(blob)
-      } else {
-        reject()
-      }
-    }
-    xhr.responseType = 'blob'
-    xhr.send()
   })
 }
