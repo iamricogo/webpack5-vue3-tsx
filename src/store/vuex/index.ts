@@ -1,3 +1,4 @@
+import { PartialDeep } from 'type-fest'
 import { Store, useStore as baseUseStore, createStore } from 'vuex'
 import app, { IAppState } from './modules/app'
 import createPersistedState from 'vuex-persistedstate'
@@ -10,9 +11,9 @@ export interface IRootState {
 export const key = Symbol()
 
 const vuexLocal = createPersistedState({
-  reducer({ app: { language } }: IRootState): {
-    app: Partial<IAppState>
-  } {
+  reducer({
+    app: { language }
+  }: IRootState): PartialDeep<IRootState> | IRootState {
     return {
       app: {
         language
