@@ -1,3 +1,4 @@
+import { PartialDeep } from 'type-fest'
 import { inject, reactive, watch } from 'vue'
 import { merge } from 'lodash'
 import PersistedState from '@/utils/PersistedState'
@@ -21,7 +22,7 @@ export interface Store {
     doubleCount: number
   }
   mutations: {
-    updateState: (newState: DeepPartial<State>) => void
+    updateState: (newState: PartialDeep<State> | State) => void
   }
 }
 
@@ -39,7 +40,7 @@ export const useCreateStore = (): { store: Store; key: typeof key } => {
       }
     }),
     mutations: {
-      updateState: (newState: DeepPartial<State> = {}) => {
+      updateState: (newState = {}) => {
         console.warn(newState)
         merge(store.state, newState)
       }
