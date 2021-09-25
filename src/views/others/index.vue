@@ -30,11 +30,12 @@ export default defineComponent({
    * 不写template 也可以 配合 render 函数写结构render 函数里面可以用 options api 也可以用 组合式 api
    */
   // render() {
+  //   const store = useStore()
   //   return (
   //     <div class="others-pages">
   //       <tag>自建状态管理</tag>
   //       <p>store.state.deep.persisted:{this.store.state.deep.persisted}</p>
-  //       <p>store.state.deep.normal:{this.store.state.deep.normal}</p>
+  //       <p>store.state.deep.normal:{store.state.deep.normal}</p>
   //       <button onClick={this.plus}>+</button>
   //       <button onClick={this.minus}>-</button>
   //       <br />
