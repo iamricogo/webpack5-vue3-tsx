@@ -53,7 +53,9 @@ const spritesLoader: LoaderDefinitionFunction = async function (content) {
       return match
     }
   )
-
+  if (options.getFileContent) {
+    return newContent
+  }
   //还原配置
   utils.updateOptions(this, options)
 

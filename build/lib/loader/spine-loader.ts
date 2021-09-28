@@ -15,10 +15,19 @@ const spineLoader: LoaderDefinitionFunction = async function (content) {
   this.addDependency(atlasSrc)
 
   const atlasContent = await utils.readFile(atlasSrc, 'utf-8')
-  //json+atlas组成的内容计算hash
+
+  //配置spritesLoader只返回文件内容
+  utils.updateOptions(this, {
+    getFileContent: true
+  })
+
+  //拿到替换过内容后的atlas文件内容（能反应内部依赖的资源的变化）
+  const newAtlasContent = await spritesLoader.call(this, atlasContent)
+
+  //json + 新atlas组成的内容计算hash
 
   const assetsName = loaderUtils.interpolateName(this, options.name, {
-    content: content + atlasContent
+    content: content + newAtlasContent
   })
 
   const ext = path.extname(this.resourcePath)
@@ -28,12 +37,12 @@ const spineLoader: LoaderDefinitionFunction = async function (content) {
     name: assetsName.replace(new RegExp(`\\${ext}$`), '.atlas')
   })
   //输出atlas文件
-  await spritesLoader.call(this, atlasContent)
+  fileLoader.call(this, newAtlasContent)
+
   //更新为原文件的配置
   utils.updateOptions(this, {
     name: assetsName
   })
-  //json同步atlas目录
   return fileLoader.call(this, content)
 }
 
