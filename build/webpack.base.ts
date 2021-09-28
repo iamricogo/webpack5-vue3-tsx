@@ -132,7 +132,10 @@ const config: Configuration = {
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       __VUE_OPTIONS_API__: true,
-      __VUE_PROD_DEVTOOLS__: false
+      __VUE_PROD_DEVTOOLS__: false,
+      __VUE_I18N_FULL_INSTALL__: true,
+      __VUE_I18N_LEGACY_API__: true,
+      __INTLIFY_PROD_DEVTOOLS__: false
     }),
     new HtmlWebpackPlugin({
       version: new Date().toString(),
