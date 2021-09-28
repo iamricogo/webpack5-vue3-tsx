@@ -1,7 +1,6 @@
 import { IRootState } from '../'
 import { Language, setI18nLanguage } from '@/lang'
 import { Module } from 'vuex'
-import { PartialDeep } from 'type-fest'
 import { ScreenState } from '@/const'
 import { merge } from 'lodash'
 export interface IAppState {
@@ -32,7 +31,7 @@ const app: Module<IAppState, IRootState> = {
       setI18nLanguage(language)
       state.language = language
     },
-    UPDATE_STATE(state, newState: PartialDeep<IAppState> | IAppState = {}) {
+    UPDATE_STATE(state, newState: PartialDeep<IAppState> = {}) {
       merge(state, newState)
     }
   }

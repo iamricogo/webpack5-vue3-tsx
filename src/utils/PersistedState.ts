@@ -2,7 +2,6 @@
  * 传入一个状态，用storage做持久化
  */
 
-import { PartialDeep } from 'type-fest'
 import { merge } from 'lodash'
 
 interface Storage {
@@ -14,7 +13,7 @@ interface Options<State> {
   state: State
   key?: string
   storage?: Storage
-  reducer?: (state: State) => PartialDeep<State> | State
+  reducer?: (state: State) => PartialDeep<State>
   replace?: (newState: PartialDeep<State> | undefined, state: State) => void
 }
 
@@ -51,7 +50,7 @@ export default class PersistedState<State> {
 
   private setState(
     key: string,
-    state: PartialDeep<State> | State,
+    state: PartialDeep<State>,
     storage: Storage
   ): void {
     storage.setItem(key, JSON.stringify(state))
