@@ -6,6 +6,7 @@ import utils from './utils'
 import spritesLoader from './sprites-loader'
 
 const spineLoader: LoaderDefinitionFunction = async function (content) {
+  content = utils.doEOL(content)
   const options = utils.optionsFormat(this)
   //应用格式化后的options
   utils.updateOptions(this, options)

@@ -5,6 +5,8 @@ import fileLoader from 'file-loader'
 import utils from './utils'
 
 const spritesLoader: LoaderDefinitionFunction = async function (content) {
+  //统一操作换行符
+  content = utils.doEOL(content)
   const options = utils.optionsFormat(this)
   //应用格式化后的options
   utils.updateOptions(this, options)

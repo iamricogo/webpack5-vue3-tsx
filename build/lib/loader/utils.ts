@@ -102,11 +102,19 @@ const optionsFormat = (loaderContext: LoaderContext<unknown>) => {
   })
 }
 
+/**
+ * 统一为POSIX系统换行符
+ * @param content 字符串内容
+ * @returns
+ */
+const doEOL = (content: string) => content.replace(/(\r\n|\n\r|\r|\n)/g, '\n')
+
 export default {
   hashPlacehoderUtils,
   optionsFormat,
   updateOptions,
   replaceAsync,
   readFile,
-  resolve
+  resolve,
+  doEOL
 }
