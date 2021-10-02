@@ -145,6 +145,18 @@ npx cross-env report=true npm run build:modern #现代化构建，构建完成�
 
       webpack5 对于图片音视频等原先需要用 url-loader/file-loader 处理的资源 内置了 [Asset Modules](https://webpack.js.org/guides/asset-modules/#root) 进行处理
 
+    - 总结：类比 Rxjs 响应式编程思想
+
+    ```ts
+    import { fromEvent } from 'rxjs'
+    import { scan } from 'rxjs/operators'
+
+    fromEvent(document, 'click') //此处为观察一个名叫click的行为事件，一旦用户发起点击行为，就会触发流程 ，webpack资源引用过程及为观察一个叫require/import函数的调用，一旦require被调用，就会触发流程
+      .pipe(scan((count) => count + 1, 0)) //loader1
+      .pipe() //loader2
+      .subscribe({ next: (count) => console.log(`Clicked ${count} times`) }) //输出的结果即require 函数返回值
+    ```
+
     #### 资源加载优化方案
 
     - ##### 主入口的优化
