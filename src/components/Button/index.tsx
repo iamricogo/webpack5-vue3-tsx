@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import AppTypes, { func } from '@/vue-types'
-export type IButtonProps = ExtractPropTypesOut<typeof iButtonProps>
+export type IButtonProps = ExtractPropTypesForOutside<typeof iButtonProps>
 
 const iButtonProps = {
   label: AppTypes.string.isRequired,

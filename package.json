@@ -25,6 +25,7 @@
     "big.js": "^6.1.1",
     "core-js": "^3.16.0",
     "dayjs": "^1.10.7",
+    "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
     "pixi-spine": "^3.0.13",
     "pixi.js": "^6.1.3",
